@@ -5,7 +5,7 @@ import mongoose, { Schema } from "mongoose";
 const productSchema = new Schema(
     {
         _id: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: String,
             required: true
         },
         pid: {

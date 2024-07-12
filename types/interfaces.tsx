@@ -1,7 +1,6 @@
-import mongoose from "mongoose";
 
 export interface Product {
-    _id: mongoose.Schema.Types.ObjectId;
+    _id: string;
     pid: number;
     name: string;
     version: string;

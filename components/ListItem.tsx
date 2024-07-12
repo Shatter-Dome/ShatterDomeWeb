@@ -2,19 +2,18 @@
 import React, { useState, useEffect } from 'react';
 import { Product } from '../types/interfaces';
 import Image from "next/image";
-import mongoose from "mongoose";
 
 interface Props {
     product: Product;
     onUpdate: (
-        _id: mongoose.Schema.Types.ObjectId,
+        _id: string,
         productId: string,
         updatedName: string,
         updatedVersion: string,
         updatedPrice: string,
         updatedDesc: string
     ) => void;
-    onDelete: (_id: mongoose.Schema.Types.ObjectId) => void;
+    onDelete: (_id: string) => void;
 }
 
 const ListItem: React.FC<Props> = ({ product, onUpdate, onDelete }) => {
