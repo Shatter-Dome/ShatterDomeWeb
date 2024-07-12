@@ -16,3 +16,7 @@ body {
     text-wrap: balance;
   }
 }
+
+paymentbutton {
+  background-color: tomato;
+}

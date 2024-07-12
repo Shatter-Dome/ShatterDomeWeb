@@ -96,6 +96,9 @@ export default function Home() {
                 </div>
                 <button type="submit"
                         className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-200">Submit
+                </button><br></br><br></br>
+                <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-200">
+                    Payment
                 </button>
             </form>
 
