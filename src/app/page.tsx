@@ -1,116 +1,100 @@
 "use client";
-import React, { useState, FormEvent, useEffect } from 'react';
-//Test code
+import { useEffect } from 'react';
+import Head from 'next/head';
+import Image from "next/image";
 
 export default function Home() {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [topics, setTopics] = useState([]);
-
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        try {
-            // Send POST request to create a new topic
-            const response = await fetch('/api/topics', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ title: name, description: email }),
-            });
-
-            const data = await response.json();
-            console.log('Topic Created:', data.message);
-
-            // Refresh topics list after submission
-            await fetchTopics();
-
-            // Clear input fields after successful submission
-            setName('');
-            setEmail('');
-        } catch (error) {
-            console.error('Error creating topic:', error);
-        }
-    };
-
-    const fetchTopics = async () => {
-        try {
-            // Fetch topics from backend API (GET request)
-            const response = await fetch('/api/topics');
-
-            const data = await response.json();
-            setTopics(data.topics);
-        } catch (error) {
-            console.error('Error fetching topics:', error);
-        }
-    };
-
-    const handleDelete = async (id: string) => {
-        try {
-            // Send DELETE request to delete a topic by ID
-            const response = await fetch(`/api/topics?id=${id}`, {
-                method: 'DELETE',
-            });
-
-            const data = await response.json();
-            console.log('Topic Deleted:', data.message);
-
-            // Refresh topics list after deletion
-            await fetchTopics();
-        } catch (error) {
-            console.error('Error deleting topic:', error);
-        }
-    };
-
-    // Fetch topics on initial component render
     useEffect(() => {
-        fetchTopics().then(r => r);
+        const handleScroll = (e: Event) => {
+            e.preventDefault();
+            const target = e.currentTarget as HTMLAnchorElement;
+            const targetId = target.getAttribute('href')?.replace('#', '');
+            const targetElement = document.getElementById(targetId || '');
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop,
+                    behavior: 'smooth',
+                });
+            }
+        };
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', handleScroll); // Correctly typed event listener
+        });
+
+        return () => {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.removeEventListener('click', handleScroll); // Remove correctly typed event listener
+            });
+        };
     }, []);
 
     return (
-        <div className="p-4">
-            <h1 className="text-2xl font-bold mb-4">Submit Form</h1>
-            <form onSubmit={handleSubmit} className="mb-8">
-                <div className="mb-4">
-                    <label htmlFor="name" className="block mb-1">Name:</label>
-                    <input
-                        type="text"
-                        id="name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-                        required
-                    />
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="email" className="block mb-1">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-                        required
-                    />
-                </div>
-                <button type="submit"
-                        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-200">Submit
-                </button>
-            </form>
+        <div>
+            <Head>
+                <title>Single Page App</title>
+            </Head>
 
-            <h2 className="text-xl font-bold mb-4">Topics</h2>
-            <ul>
-                {topics.map((topic: any) => (
-                    <li key={topic._id} className="mb-4 p-4 border rounded-md">
-                        <div className="text-lg font-bold mb-2">{topic.title}</div>
-                        <div className="text-gray-700">{topic.description}</div>
-                        <button onClick={() => handleDelete(topic._id)}
-                                className="mt-2 px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors duration-200">Delete
+            <nav className="bg-gray-800 p-4 fixed w-full z-10 top-0">
+                <div className="container mx-auto flex justify-between items-center">
+                    <div className="text-white text-lg font-bold">
+                        Logo
+                    </div>
+                    <div className="space-x-4">
+                        <a href="#company" className="text-white hover:text-black">Company</a>
+                        <a href="#product" className="text-white hover:text-black">Product</a>
+                        <a href="#pricing" className="text-white hover:text-black">Pricing</a>
+                        <a href="#support" className="text-white hover:text-black">Support</a>
+                        <button className="bg-blue-500 text-white px-4 py-2 rounded">
+                            Buy Now
                         </button>
-                    </li>
-                ))}
-            </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <div className="pt-16">
+                <section id="company" className="h-screen p-28 flex flex-col justify-center bg-gray-200">
+                    <h1 className="text-start text-4xl font-bold">About ShatterDome</h1>
+                    <div className="mb-12 flex flex-col lg:flex-row lg:items-center pt-5">
+                        <div className="lg:w-1/2">
+                            <p className="mt-4 text-lg">At ShatterDome Robotics, we are pioneers in the realm of quadruple robotics, driven by a passion for cutting-edge technology and a commitment to excellence. Founded by a group of ambitious second-degree college students, our startup is dedicated to revolutionizing the robotics industry with our innovative products.</p>
+                            <p className="mt-4 text-lg">Our vision at ShatterDome is a future where robotics seamlessly integrate into everyday life, enhancing efficiency and convenience for individuals and businesses alike.</p>
+                        </div>
+                        <div className="lg:w-1/2 flex justify-end">
+                            <Image src="/IMG_0818.png" width={500} height={500} alt="Company Image"
+                                   className="rounded-lg shadow-lg"/>
+                        </div>
+                    </div>
+                </section>
+                <section id="product" className="h-screen p-28 flex flex-col justify-center bg-gray-300">
+                    <h1 className="text-start text-4xl font-bold">Product</h1>
+                    <div className="mb-12 flex flex-col lg:flex-row lg:items-center pt-10">
+                        <div className="lg:w-1/2 flex justify-start pl-5 pr-5">
+                            <Image src="/IMG_0936.png" width={500} height={500} alt="Company Image"
+                                   className="rounded-lg shadow-lg"/>
+                        </div>
+                        <div className="lg:w-1/2">
+                            <p className="mt-4 text-lg">Alpha is an Ultimate ROS quadruped robot driven by Raspberry Pi 5 and Runs the
+                                Robot Operating System (ROS). It has 12 Metal Geared servos for 12 Degrees of
+                                Freedom, delivering high-precision performance, rapid rotation speed, and a robust
+                                torque of 10KG.cm.</p>
+                        </div>
+                    </div>
+                </section>
+                <section id="pricing" className="h-screen flex items-center justify-center bg-gray-400">
+                    <h1 className="text-4xl">Pricing</h1>
+                </section>
+                <section id="support" className="h-screen flex items-center justify-center bg-gray-500">
+                    <h1 className="text-4xl">Support</h1>
+                </section>
+            </div>
+            <footer className="bg-gray-800 text-white p-4">
+                <div className="container mx-auto">
+                    <div className="text-center">
+                        &copy;copyright 2024 ShatterDome
+                    </div>
+                </div>
+            </footer>
         </div>
-    );
-};
+    )
+}
