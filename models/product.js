@@ -1,9 +1,5 @@
 import mongoose from 'mongoose';
 
-if (mongoose.models.Product) {
-    delete mongoose.models.Product; // Clear the model definition if it exists
-}
-
 const productSchema = new mongoose.Schema({
     pid: { type: String, required: true },
     name: { type: String, required: true },

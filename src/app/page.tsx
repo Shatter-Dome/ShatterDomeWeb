@@ -53,40 +53,56 @@ export default function Home() {
             </nav>
 
             <div className="pt-16">
-                <section id="company" className="h-screen p-28 flex flex-col justify-center bg-gray-200">
-                    <h1 className="text-start text-4xl font-bold">About ShatterDome</h1>
-                    <div className="mb-12 flex flex-col lg:flex-row lg:items-center pt-5">
-                        <div className="lg:w-1/2">
-                            <p className="mt-4 text-lg">At ShatterDome Robotics, we are pioneers in the realm of quadruple robotics, driven by a passion for cutting-edge technology and a commitment to excellence. Founded by a group of ambitious second-degree college students, our startup is dedicated to revolutionizing the robotics industry with our innovative products.</p>
-                            <p className="mt-4 text-lg">Our vision at ShatterDome is a future where robotics seamlessly integrate into everyday life, enhancing efficiency and convenience for individuals and businesses alike.</p>
+                <div className="flex flex-col min-h-screen">
+                    <section id="company" className="h-screen p-8 lg:p-28 flex flex-col justify-center bg-gray-200">
+                        <h1 className="text-4xl lg:text-5xl font-bold text-left mb-8 lg:mb-12">About ShatterDome</h1>
+                        <div className="flex flex-col lg:flex-row lg:items-center">
+                            <div className="lg:w-1/2 mb-8 lg:mb-0 pr-8">
+                                <p className="text-lg mt-4">
+                                    At ShatterDome Robotics, we are pioneers in the realm of quadruple robotics, driven
+                                    by a passion for cutting-edge technology and a commitment to excellence. Founded by
+                                    a group of ambitious college students, our startup is dedicated to revolutionizing
+                                    the robotics industry with innovative products.
+                                </p>
+                                <p className="text-lg mt-4">
+                                    Our vision at ShatterDome is a future where robotics seamlessly integrate into
+                                    everyday life, enhancing efficiency and convenience for individuals and businesses
+                                    alike.
+                                </p>
+                            </div>
+                            <div className="lg:w-1/2 flex justify-center lg:justify-end">
+                                <Image width={500} height={500} src="/IMG_0818.png" alt="Company Image"
+                                     className="rounded-lg shadow-lg w-72 h-72 lg:w-full lg:h-auto"/>
+                            </div>
                         </div>
-                        <div className="lg:w-1/2 flex justify-end">
-                            <Image src="/IMG_0818.png" width={500} height={500} alt="Company Image"
-                                   className="rounded-lg shadow-lg"/>
+                    </section>
+
+                    <section id="product" className="h-screen p-8 lg:p-28 flex flex-col justify-center bg-gray-300">
+                        <h1 className="text-4xl lg:text-5xl font-bold text-left mb-8 lg:mb-12">Product</h1>
+                        <div className="flex flex-col lg:flex-row lg:items-center">
+                            <div className="lg:w-1/2 flex justify-center lg:justify-start mb-8 lg:mb-0">
+                                <Image width={500} height={500} src="/IMG_0936.png" alt="Product Image"
+                                     className="rounded-lg shadow-lg w-72 h-72 lg:w-full lg:h-auto"/>
+                            </div>
+                            <div className="lg:w-1/2">
+                                <p className="text-lg mt-4 pl-8">
+                                    Alpha is an Ultimate ROS quadruped robot driven by Raspberry Pi 5 and runs on the
+                                    Robot Operating System (ROS). It features 12 metal-geared servos for 12 degrees of
+                                    freedom, delivering high-precision performance, rapid rotation speed, and a robust
+                                    torque of 10KG.cm.
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                </section>
-                <section id="product" className="h-screen p-28 flex flex-col justify-center bg-gray-300">
-                    <h1 className="text-start text-4xl font-bold">Product</h1>
-                    <div className="mb-12 flex flex-col lg:flex-row lg:items-center pt-10">
-                        <div className="lg:w-1/2 flex justify-start pl-5 pr-5">
-                            <Image src="/IMG_0936.png" width={500} height={500} alt="Company Image"
-                                   className="rounded-lg shadow-lg"/>
-                        </div>
-                        <div className="lg:w-1/2">
-                            <p className="mt-4 text-lg">Alpha is an Ultimate ROS quadruped robot driven by Raspberry Pi 5 and Runs the
-                                Robot Operating System (ROS). It has 12 Metal Geared servos for 12 Degrees of
-                                Freedom, delivering high-precision performance, rapid rotation speed, and a robust
-                                torque of 10KG.cm.</p>
-                        </div>
-                    </div>
-                </section>
-                <section id="pricing" className="h-screen flex items-center justify-center bg-gray-400">
-                    <h1 className="text-4xl">Pricing</h1>
-                </section>
-                <section id="support" className="h-screen flex items-center justify-center bg-gray-500">
-                    <h1 className="text-4xl">Support</h1>
-                </section>
+                    </section>
+
+                    <section id="pricing" className="h-screen flex items-center justify-center bg-gray-400">
+                        <h1 className="text-4xl">Pricing</h1>
+                    </section>
+
+                    <section id="support" className="h-screen flex items-center justify-center bg-gray-500">
+                        <h1 className="text-4xl">Support</h1>
+                    </section>
+                </div>
             </div>
             <footer className="bg-gray-800 text-white p-4">
                 <div className="container mx-auto">

@@ -81,7 +81,7 @@ const ProductsList: React.FC<Props> = ({ products: initialProducts }) => {
     const handleAdd = async () => {
         try {
             const requestBody = JSON.stringify(newProduct);
-            const response = await fetch('/api/products', {
+            await fetch('/api/products', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -90,9 +90,9 @@ const ProductsList: React.FC<Props> = ({ products: initialProducts }) => {
             });
 
             console.log('Product added successfully.');
-            setNewProduct({ pid: '', name: '', version: '', price: '', desc: '' }); // Reset form
-            setIsAdding(false); // Hide input fields
-            await fetchProducts(); // Refresh the product list
+            setNewProduct({ pid: '', name: '', version: '', price: '', desc: '' });
+            setIsAdding(false);
+            await fetchProducts();
         } catch (error) {
             console.error('Error adding product:', error);
         }
