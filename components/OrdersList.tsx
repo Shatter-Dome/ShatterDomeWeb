@@ -6,6 +6,48 @@ interface OrdersListProps {
     orders: Order[];
 }
 
+const handleCancelOrder = async (orderId: string) => {
+    try {
+        const response = await fetch(`/api/orders/${orderId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ status: 'cancelled' }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+            console.log('Order cancelled successfully:', data);
+        } else {
+            throw new Error(`Failed to cancel order: ${data.error}`);
+        }
+    } catch (error) {
+        console.error('Error cancelling order:', error);
+    }
+};
+
+
+const handleShipOrder = async (orderId: string) => {
+    try {
+        const response = await fetch(`/api/orders/${orderId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ status: 'shipped' }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+            console.log('Order status updated successfully:', data);
+        } else {
+            throw new Error(`Failed to update order status: ${data.error}`);
+        }
+    } catch (error) {
+        console.error('Error updating order status:', error);
+    }
+};
+
+
 const OrdersList: React.FC<OrdersListProps> = ({ orders }) => {
     const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
 
@@ -60,6 +102,20 @@ const OrdersList: React.FC<OrdersListProps> = ({ orders }) => {
                                                             ))}
                                                         </ul>
                                                         <p><strong>Note:</strong> {order.note}</p>
+                                                        <div className="mt-4">
+                                                            <button
+                                                                className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 rounded mr-2"
+                                                                onClick={() => handleCancelOrder(order._id)}
+                                                            >
+                                                                Cancel Order
+                                                            </button>
+                                                            <button
+                                                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                                                                onClick={() => handleShipOrder(order._id)}
+                                                            >
+                                                                Shipped
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </td>
                                             </tr>
