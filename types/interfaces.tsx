@@ -14,15 +14,16 @@ export interface Order {
     customer: {
         name: string; // Customer's name
         email: string; // Customer's email
+        mobile: string; // Customer's mobile number
         address: string;
     };
     items: Array<{
         productId: string;
-        productName: string;
         quantity: number;
         price: number;
     }>;
     totalAmount: number;
     orderDate: Date;
     status: 'pending' | 'completed' | 'shipped' | 'cancelled';
+    note: string;
 }

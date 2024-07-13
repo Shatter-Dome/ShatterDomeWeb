@@ -9,7 +9,6 @@ const orderSchema = new mongoose.Schema({
     },
     items: [{
         productId: { type: String, required: true },
-        productName: { type: String, required: true },
         quantity: { type: Number, required: true },
         price: { type: Number, required: true },
     }],
@@ -20,6 +19,7 @@ const orderSchema = new mongoose.Schema({
         enum: ['pending', 'completed', 'shipped', 'cancelled'],
         default: 'pending',
     },
+    note: { type: String },
 });
 
 const Order = mongoose.models.Order || mongoose.model('Order', orderSchema);

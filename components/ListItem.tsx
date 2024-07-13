@@ -71,58 +71,71 @@ const ListItem: React.FC<Props> = ({ product, onUpdate, onDelete }) => {
     };
 
     return (
-        <li className="grid grid-rows-2">
-            <br></br>
-            <div className="grid grid-cols-3 divide-x">
-                <div className="text-lg mr-4 grid-cols-1">
-                    {isEditing ?
-                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-                        : name}
-                </div>
-                <div className="text-lg mr-4 grid-cols-1">
-                    {isEditing ?
-                        <input type="text" value={version} onChange={(e) => setVersion(e.target.value)} />
-                        : version}
-                </div>
-                <div className="text-lg mr-4 grid-cols-1">
-                    {isEditing ?
-                        <input type="text" value={price.toString()} onChange={(e) => setPrice(e.target.value)} />
-                        : price}
-                </div>
-            </div>
-            <div className="flex items-center md:w-auto">
-                <span className="text-lg mr-4">
-                    {isEditing ?
-                        <input type="text" value={desc} onChange={(e) => setDesc(e.target.value)} />
-                        : null}
-                </span>
-            </div>
-            <div className="flex items-center">
-                <span className="text-lg">
+        <>
+            <tr className="border-b border-gray-200">
+                <td className="px-6 py-4 whitespace-nowrap">{product.pid}</td>
+                <td className="px-6 py-4 whitespace-nowrap">
                     {isEditing ? (
-                        <>
-                            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-8"
-                                    onClick={handleDeleteClick}>
-                                Delete
-                            </button>
-                            <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-8"
-                                onClick={handleUpdateClick}>
-                                Save
-                            </button>
-                            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
-                                    onClick={handleCancelClick}>
-                                Cancel
-                            </button>
-                        </>
+                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full max-w-md px-3 py-2 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
                     ) : (
-                        <span className="text-blue-500 cursor-pointer" onClick={handleEditClick}>
-                            <Image src="/edit.svg" alt="Edit" width={20} height={20}/>
-                        </span>
+                        name
                     )}
-                </span>
-            </div>
-        </li>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                    {isEditing ? (
+                        <input type="text" value={version} onChange={(e) => setVersion(e.target.value)} className="w-full max-w-md px-3 py-2 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
+                    ) : (
+                        version
+                    )}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                    {isEditing ? (
+                        <input type="text" value={price.toString()} onChange={(e) => setPrice(e.target.value)} className="w-full max-w-md px-3 py-2 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
+                    ) : (
+                        price
+                    )}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                    {!isEditing ? (
+                        <span className="text-blue-500 cursor-pointer" onClick={handleEditClick}>
+                                <Image src="/edit.svg" alt="Edit" width={20} height={20}/>
+                        </span>
+                    ) : null}
+                </td>
+            </tr>
+            {isEditing && (
+                <tr className="border-b border-gray-200">
+                    <td className="px-6 py-4">
+                        Description:{" "}
+                    </td>
+                    <td colSpan={2} className="px-6 py-4">
+                        <textarea value={desc} onChange={(e) => setDesc(e.target.value)}
+                                  className="w-full max-w-md px-3 py-2 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                  rows={4}/>
+                    </td>
+                    <td className="py-4 whitespace-nowrap">
+                        <button
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2"
+                            onClick={handleDeleteClick}
+                        >
+                            Delete
+                        </button>
+                        <button
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                            onClick={handleUpdateClick}
+                        >
+                            Save
+                        </button>
+                        <button
+                            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+                            onClick={handleCancelClick}
+                        >
+                            Cancel
+                        </button>
+                    </td>
+                </tr>
+            )}
+        </>
     );
 };
 
