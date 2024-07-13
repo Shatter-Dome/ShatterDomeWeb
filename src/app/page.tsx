@@ -176,12 +176,12 @@ export default function Home() {
                                 </select>
                             </div>
                         </div>
-                        <div className="flex flex-col lg:flex-row lg:items-center">
-                            <div className="lg:w-1/2 flex justify-center lg:justify-start mb-8 lg:mb-0">
+                        <div className="flex flex-col lg:flex-row lg:items-center mt-8">
+                            <div className="lg:w-full flex justify-center lg:justify-start mb-8 lg:mb-0">
                                 <Image width={500} height={500} src={getImageSrc()} alt="Product Image"
-                                       className="rounded-lg shadow-lg w-72 h-72 lg:w-full lg:h-auto"/>
+                                       className="rounded-lg shadow-lg lg:w-full lg:h-auto"/>
                             </div>
-                            <div>
+                            <div className="lg:w-5/6 h-auto">
                                 <p className="text-lg mt-4 pl-8">
                                     {getProductDescription() || (
                                         "Select a product and version to see its description."
