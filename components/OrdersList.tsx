@@ -11,7 +11,7 @@ const OrdersList: React.FC<OrdersListProps> = ({ orders }) => {
     return (
         <div className="mt-8">
             <h2 className="text-2xl font-bold mb-4">Orders</h2>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="mb-8">
                 <div>
                     <h3 className="text-xl font-bold mb-2">Pending Orders</h3>
                     <table className="min-w-full divide-y divide-gray-200">
@@ -21,6 +21,12 @@ const OrdersList: React.FC<OrdersListProps> = ({ orders }) => {
                                 ID
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total
+                                Amount
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order
+                                Date
+                            </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                         </tr>
                         </thead>
@@ -31,6 +37,8 @@ const OrdersList: React.FC<OrdersListProps> = ({ orders }) => {
                                     <tr key={order._id}>
                                         <td className="px-6 py-4 whitespace-nowrap">{order.oid}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{order.customer.name}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">${order.totalAmount.toFixed(2)}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{new Date(order.orderDate).toLocaleDateString()}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{order.status}</td>
                                     </tr>
                                 );
@@ -65,6 +73,8 @@ const OrdersList: React.FC<OrdersListProps> = ({ orders }) => {
                                     <tr key={order._id}>
                                         <td className="px-6 py-4 whitespace-nowrap">{order._id}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{order.customer.name}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">${order.totalAmount.toFixed(2)}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{new Date(order.orderDate).toLocaleDateString()}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{order.status}</td>
                                     </tr>
                                 );

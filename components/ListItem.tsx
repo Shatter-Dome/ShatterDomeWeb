@@ -101,7 +101,7 @@ const ListItem: React.FC<Props> = ({ product, onUpdate, onDelete }) => {
                 <span className="text-lg">
                     {isEditing ? (
                         <>
-                            <button className="bg-blue-500 hover:bg-blue-700 text-red-500 font-bold py-2 px-4 rounded mr-8"
+                            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-8"
                                     onClick={handleDeleteClick}>
                                 Delete
                             </button>
