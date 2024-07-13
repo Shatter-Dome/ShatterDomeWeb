@@ -16,9 +16,7 @@ const handleCancelOrder = async (orderId: string) => {
             body: JSON.stringify({ status: 'cancelled' }),
         });
         const data = await response.json();
-        if (response.ok) {
-            console.log('Order cancelled successfully:', data);
-        } else {
+        if (!response.ok) {
             throw new Error(`Failed to cancel order: ${data.error}`);
         }
     } catch (error) {
@@ -38,8 +36,6 @@ const handleShipOrder = async (orderId: string) => {
         });
         const data = await response.json();
         if (response.ok) {
-            console.log('Order status updated successfully:', data);
-        } else {
             throw new Error(`Failed to update order status: ${data.error}`);
         }
     } catch (error) {

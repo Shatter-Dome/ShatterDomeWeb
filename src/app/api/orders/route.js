@@ -30,7 +30,6 @@ export async function GET() {
     try {
         await connectMongoDB();
         const orders = await Order.find();
-        console.log('Fetched orders:', orders);
         return NextResponse.json({ orders });
     } catch (error) {
         console.error('Error fetching Orders:', error);
@@ -45,14 +44,11 @@ export async function DELETE(request) {
         if (!id) {
             return NextResponse.json({ error: 'Order ID is required' }, { status: 400 });
         }
-
         await connectMongoDB();
         const deletedOrder = await Order.findByIdAndDelete(id);
-
         if (!deletedOrder) {
             return NextResponse.json({ error: 'Order not found' }, { status: 404 });
         }
-
         return NextResponse.json({ message: "Order deleted" }, { status: 200 });
     } catch (error) {
         console.error('Error deleting Order:', error);

@@ -12,9 +12,7 @@ const LoginPage = () => {
 
     const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Replace with actual authentication logic
         if (username === 'admin' && password === 'dev') {
-            // Store authentication state
             localStorage.setItem('isLoggedIn', 'true');
             router.push('/admin/dashboard');
         } else {

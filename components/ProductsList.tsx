@@ -50,8 +50,6 @@ const ProductsList: React.FC<Props> = ({ products: initialProducts }) => {
             if (!response.ok) {
                 throw new Error('Failed to update product');
             }
-
-            console.log(`Product ${productId} updated successfully.`);
         } catch (error) {
             console.error('Error updating product:', error);
         }
@@ -70,8 +68,6 @@ const ProductsList: React.FC<Props> = ({ products: initialProducts }) => {
             if (!response.ok) {
                 throw new Error('Failed to delete product');
             }
-
-            console.log(`Product ${_id} deleted successfully.`);
             await fetchProducts();
         } catch (error) {
             console.error('Error deleting product:', error);
@@ -88,8 +84,6 @@ const ProductsList: React.FC<Props> = ({ products: initialProducts }) => {
                 },
                 body: requestBody,
             });
-
-            console.log('Product added successfully.');
             setNewProduct({ pid: '', name: '', version: '', price: '', desc: '' });
             setIsAdding(false);
             await fetchProducts();
