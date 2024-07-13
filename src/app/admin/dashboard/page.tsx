@@ -42,7 +42,7 @@ const DashboardPage = () => {
                     </button>
                 </div>
             </nav>
-            <div className="container mx-auto mt-8">
+            <div className="container mx-auto mt-8 mb-8">
                 <h1 className="text-4xl font-bold mb-4 text-center">Admin Panel</h1>
                 <div className="flex space-x-4 pt-8 pl-8">
                     <a href="#" className="text-xl text-blue-500 hover:text-blue-700 font-bold" onClick={handleProductsClick}>
@@ -52,6 +52,9 @@ const DashboardPage = () => {
                 </div>
                 {showProducts && <ProductsList products={products} />}
             </div>
+            <footer className="bg-gray-800 text-white text-center p-2 mt-4">
+                &copy;copyright 2024 ShatterDome
+            </footer>
         </div>
     );
 };

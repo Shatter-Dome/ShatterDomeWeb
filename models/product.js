@@ -1,40 +1,16 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from 'mongoose';
 
-//Example code for testing
-// Define the schema
-const productSchema = new Schema(
-    {
-        _id: {
-            type: String,
-            required: true
-        },
-        pid: {
-            type: String,
-            required: true
-        },
-        name: {
-            type: String,
-            required: true
-        },
-        version: {
-            type: String,
-            required: true
-        },
-        price: {
-            type: String,
-            required: true
-        },
-        desc: {
-            type: String,
-            required: true
-        },
-    },
-    {
-        timestamps: true // Automatically adds createdAt and updatedAt fields
-    }
-);
+if (mongoose.models.Product) {
+    delete mongoose.models.Product; // Clear the model definition if it exists
+}
 
-// Define the model based on the schema
-const Product = mongoose.models.Product || mongoose.model("Product", productSchema);
+const productSchema = new mongoose.Schema({
+    pid: { type: String, required: true },
+    name: { type: String, required: true },
+    version: { type: String, required: true },
+    price: { type: Number, required: true },
+    desc: { type: String, required: true },
+});
 
+const Product = mongoose.models.Product || mongoose.model('Product', productSchema);
 export default Product;

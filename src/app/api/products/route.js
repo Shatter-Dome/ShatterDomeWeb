@@ -4,15 +4,24 @@ import { NextResponse } from "next/server";
 
 export async function POST(request) {
     try {
+        console.log('Request:', request);
         const { pid, name, version, price, desc } = await request.json();
+        if (!pid || !name || !version || !price || !desc) {
+            return NextResponse.json({ error: 'All fields are required' }, { status: 400 });
+        }
+
         await connectMongoDB();
-        await Product.create({ pid, name, version, price, desc});
-        return NextResponse.json({ message: "Product Created" }, { status: 201 });
+        const newProduct = { pid, name, version, price, desc };
+        console.log('New Product:', newProduct);
+        await Product.create(newProduct);
+
+        return NextResponse.json({ message: "Product Created" }, { status: 200 });
     } catch (error) {
-        console.error('Error creating Product:', error);
-        return NextResponse.json({ error: 'Failed to create Product' }, { status: 500 });
+        console.error('Error creating Product:', error.message);
+        return NextResponse.json({ error: 'Failed to create Product', details: error.message }, { status: 500 });
     }
 }
+
 
 export async function GET() {
     try {
