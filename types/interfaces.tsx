@@ -27,3 +27,5 @@ export interface Order {
     status: 'pending' | 'completed' | 'shipped' | 'cancelled';
     note: string;
 }
+
+export type ProductName = 'Alpha' | 'Beta' | 'Gamma';

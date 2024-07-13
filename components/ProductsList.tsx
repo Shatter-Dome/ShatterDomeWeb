@@ -172,7 +172,7 @@ const ProductsList: React.FC<Props> = ({ products: initialProducts }) => {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                 {products.map((product) => (
-                    <ListItem key={product.pid} product={product} onUpdate={handleUpdate} onDelete={handleDelete}/>
+                    <ListItem key={product._id} product={product} onUpdate={handleUpdate} onDelete={handleDelete}/>
                 ))}
                 </tbody>
             </table>
