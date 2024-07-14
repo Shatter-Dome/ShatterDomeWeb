@@ -1,9 +1,9 @@
 import { prisma } from '../../../../../lib/prisma'
 import { compare } from 'bcrypt'
-import NextAuth, { AuthOptions } from 'next-auth'
+import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
-const authOptions: AuthOptions = {
+export default NextAuth({
   session: {
     strategy: 'jwt',
   },
@@ -47,6 +47,16 @@ const authOptions: AuthOptions = {
       },
     }),
   ],
-}
-
-export default NextAuth(authOptions)
+  callbacks: {
+    async jwt(token: { id: any }, user: { id: any }) {
+      if (user) {
+        token.id = user.id
+      }
+      return token
+    },
+    async session(session: { user: { id: any } }, token: { id: any }) {
+      session.user.id = token.id
+      return session
+    }
+  }
+})
