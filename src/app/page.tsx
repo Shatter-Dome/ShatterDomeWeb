@@ -98,7 +98,7 @@ export default function Home() {
                         Logo
                     </div>
                     <div className="space-x-4">
-                        <a href="#company" className="text-white hover:text-black">Company</a>
+                        <a href="#company" className="text-white hover:text-black hover:">Company</a>
                         <a href="#product" className="text-white hover:text-black">Product</a>
                         <a href="#pricing" className="text-white hover:text-black">Pricing</a>
                         <a href="#support" className="text-white hover:text-black">Support</a>
