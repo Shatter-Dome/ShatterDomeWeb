@@ -1,116 +1,77 @@
-"use client";
-import React, { useState, FormEvent, useEffect } from 'react';
-//Test code
+import { prisma } from '../../lib/prisma'
+import { hash } from 'bcrypt'
+import { randomUUID } from 'crypto'
+import formData from 'form-data'
+import { TextField } from 'lotus-ux'
+import Mailgun from 'mailgun.js'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import { Submit } from './register/submit'
 
-export default function Home() {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [topics, setTopics] = useState([]);
+const API_KEY = process.env.MAILGUN_API_KEY || ''
+const DOMAIN = process.env.MAILGUN_DOMAIN || ''
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+export default function RegisterPage() {
+  async function createUser(data: FormData) {
+    'use server'
 
-        try {
-            // Send POST request to create a new topic
-            const response = await fetch('/api/topics', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ title: name, description: email }),
-            });
+    const password = await hash(data.get('password') as string, 12)
 
-            const data = await response.json();
-            console.log('Topic Created:', data.message);
+    const user = await prisma.user.create({
+      data: {
+        name: data.get('name') as string,
+        email: data.get('email') as string,
+        password,
+      },
+    })
+    if (!user) {
+      return { error: 'Something went wrong' }
+    }
 
-            // Refresh topics list after submission
-            await fetchTopics();
+    const token = await prisma.activateToken.create({
+      data: {
+        userId: user.id,
+        token: `${randomUUID()}${randomUUID()}`.replace(/-/g, ''),
+      },
+    })
 
-            // Clear input fields after successful submission
-            setName('');
-            setEmail('');
-        } catch (error) {
-            console.error('Error creating topic:', error);
-        }
-    };
+    const mailgun = new Mailgun(formData)
+    const client = mailgun.client({ username: 'api', key: API_KEY })
 
-    const fetchTopics = async () => {
-        try {
-            // Fetch topics from backend API (GET request)
-            const response = await fetch('/api/topics');
+    const messageData = {
+      from: `Example Email <hello@${DOMAIN}>`,
+      to: user.email,
+      subject: 'Please Activate Your Account',
+      text: `Hello ${user.name}, please activate your account by clicking this link: http://localhost:3000/activate/${token.token}`,
+    }
 
-            const data = await response.json();
-            setTopics(data.topics);
-        } catch (error) {
-            console.error('Error fetching topics:', error);
-        }
-    };
+    await client.messages.create(DOMAIN, messageData)
 
-    const handleDelete = async (id: string) => {
-        try {
-            // Send DELETE request to delete a topic by ID
-            const response = await fetch(`/api/topics?id=${id}`, {
-                method: 'DELETE',
-            });
+    redirect('/register/success')
+  }
 
-            const data = await response.json();
-            console.log('Topic Deleted:', data.message);
-
-            // Refresh topics list after deletion
-            await fetchTopics();
-        } catch (error) {
-            console.error('Error deleting topic:', error);
-        }
-    };
-
-    // Fetch topics on initial component render
-    useEffect(() => {
-        fetchTopics().then(r => r);
-    }, []);
-
-    return (
-        <div className="p-4">
-            <h1 className="text-2xl font-bold mb-4">Submit Form</h1>
-            <form onSubmit={handleSubmit} className="mb-8">
-                <div className="mb-4">
-                    <label htmlFor="name" className="block mb-1">Name:</label>
-                    <input
-                        type="text"
-                        id="name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-                        required
-                    />
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="email" className="block mb-1">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-                        required
-                    />
-                </div>
-                <button type="submit"
-                        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-200">Submit
-                </button>
-            </form>
-
-            <h2 className="text-xl font-bold mb-4">Topics</h2>
-            <ul>
-                {topics.map((topic: any) => (
-                    <li key={topic._id} className="mb-4 p-4 border rounded-md">
-                        <div className="text-lg font-bold mb-2">{topic.title}</div>
-                        <div className="text-gray-700">{topic.description}</div>
-                        <button onClick={() => handleDelete(topic._id)}
-                                className="mt-2 px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors duration-200">Delete
-                        </button>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
-};
+  return (
+    <div className="h-screen w-screen flex justify-center items-center bg-slate-100">
+      <div className="sm:shadow-xl px-8 pb-8 pt-12 sm:bg-white rounded-xl space-y-12 w-[500px]">
+        <h1 className="font-semibold text-2xl">Create your Account</h1>
+        <form action={createUser} className="space-y-4">
+          <TextField label="Name" name="name" type="text" />
+          <TextField label="Email" name="email" type="email" isRequired />
+          <TextField
+            label="Password"
+            name="password"
+            type="password"
+            isRequired
+          />
+          <Submit />
+        </form>
+        <p>
+          Have an account?{' '}
+          <Link className="text-indigo-500 hover:underline" href="/login">
+            Sign in
+          </Link>{' '}
+        </p>
+      </div>
+    </div>
+  )
+}
