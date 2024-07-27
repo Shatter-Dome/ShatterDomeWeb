@@ -33,7 +33,7 @@ export default function Home() {
                                 </div>
                             </div>
                             <div>
-                                <Image src="/bot1.png" alt="robot1" width="500" height="500"/>
+                                <Image src="/bot1.png" alt="robot1" width="800" height="800"/>
                             </div>
                         </div>
                     </section>
@@ -90,19 +90,19 @@ export default function Home() {
                         </div>
                         <hr className="border-t-2 border-gray-500 my-8 lg:my-6"/>
                         <div className="flex justify-center gap-8 mt-4">
-                            <div className="flex-1 max-w-lg">
+                            <div className="flex-1 max-w-lg rounded-lg">
                                 <Image height="500" width="500" src="/bot3.png" alt="robot3"
-                                       className="w-full h-auto object-cover"/>
+                                       className="w-full h-auto object-cover rounded-l-3xl"/>
                             </div>
-                            <div className="flex-1 max-w-lg">
+                            <div className="flex-1 max-w-lg bg-black rounded-r-3xl">
                                 <Image height="500" width="500" src="/bot4.png" alt="robot4"
-                                       className="w-full h-auto object-cover"/>
+                                       className="w-full h-auto object-cover rounded-r-3xl"/>
                             </div>
                         </div>
                     </section>
 
-                    <section className="flex flex-col justify-center items-center mt-52 mx-28">
-                        <div className="relative flex justify-center items-center w-full bg-black h-screen">
+                    <section className="flex flex-col justify-center items-center mt-52 mx-28 ">
+                        <div className="relative flex justify-center items-center w-full bg-black h-screen rounded-3xl">
                             <Image src="/bot5.png" alt="robot5" height="500" width="500"
                                    className="w-auto h-auto object-cover"/>
                             <div className="absolute flex flex-col bottom-20 left-16 text-white text-3xl font-bold">
@@ -123,7 +123,7 @@ export default function Home() {
                         <p className="text-gray-400 text-3xl">
                             Alpha Quadrupled Robot Platform empowers users with incredible features. Swipe!
                         </p>
-                        <div className="flex flex-col items-center justify-center bg-black mt-16">
+                        <div className="flex flex-col items-center justify-center bg-black mt-16 rounded-3xl">
                             <Image src="/bot6.png" alt="robot6" width="500" height="500"/>
                         </div>
                     </section>

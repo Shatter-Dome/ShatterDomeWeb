@@ -20,17 +20,17 @@ export default function Home() {
                             fill
                         />
                         <div className="absolute inset-0 p-8 text-white">
-                            <div className="absolute top-15 left-10 m-4 bg-black bg-opacity-60 p-4 rounded-lg">
+                            <div className="absolute top-15 left-10 m-4 bg-black bg-opacity-50 p-4 rounded-lg">
                                 <h1>Advanced object recognition</h1>
                                 <h1>for a deeper understanding</h1>
                                 <h1>of the environment</h1>
                             </div>
-                            <div className="absolute top-30 right-10 m-4 bg-black bg-opacity-60 p-4 rounded-lg">
+                            <div className="absolute top-30 right-10 m-4 bg-black bg-opacity-50 p-4 rounded-lg">
                                 <h1>Real-time scene analysis</h1>
                                 <h1>for dynamic Control</h1>
                                 <h1>Systems</h1>
                             </div>
-                            <div className="absolute top-60 left-10 m-4 bg-black bg-opacity-60 p-4 rounded-lg">
+                            <div className="absolute top-60 left-10 m-4 bg-black bg-opacity-50 p-4 rounded-lg">
                                 <h1>Simultaneous localization</h1>
                                 <h1>and mapping (SLAM)</h1>
                                 <h1>for precise spatial tracking</h1>
