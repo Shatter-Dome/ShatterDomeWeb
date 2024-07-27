@@ -1,8 +1,24 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins, Calligraffitti } from "next/font/google";
+import localFont from 'next/font/local'
 import "./globals.css";
+import React from "react";
 
-const inter = Inter({ subsets: ["latin"] });
+// Initialize Poppins with weights and subsets
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "700"],  // Example weights, adjust as needed
+});
+
+const calligraffitti = Calligraffitti({
+    subsets: ["latin"],
+    weight: ["400"],// Example weights, adjust as needed
+});
+
+const impact = localFont({
+  src: '../../public/Impact.ttf',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={poppins.className}>{children}</body>
     </html>
   );
 }

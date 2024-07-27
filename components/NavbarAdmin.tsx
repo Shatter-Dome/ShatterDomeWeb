@@ -1,8 +1,8 @@
-// components/Navbar.js
+// components/NavbarAdmin.js
 import React from 'react';
 import Link from 'next/link';
 
-const Navbar = () => {
+const NavbarAdmin = () => {
     return (
         <nav className="bg-gray-800 p-4">
             <div className="container mx-auto flex items-center justify-between">
@@ -20,4 +20,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default NavbarAdmin;
