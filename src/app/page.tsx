@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
+import ThreeScene from '../../components/ThreeScene';
+
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -123,11 +125,14 @@ export default function Home() {
                         <p className="text-gray-400 text-3xl">
                             Alpha Quadrupled Robot Platform empowers users with incredible features. Swipe!
                         </p>
-                        <div className="flex flex-col items-center justify-center bg-black mt-16 rounded-3xl">
-                            <Image src="/bot6.png" alt="robot6" width="500" height="500"/>
-                        </div>
-                    </section>
+                        <div className="flex flex-col items-center justify-center bg-black mt-16 rounded-3xl relative">
+    <div className="w-full h-full">
+        <ThreeScene />
+    </div>
+</div>
 
+                    </section>
+                    <br></br>
                     <section className="h-screen flex items-center justify-center">
                         <h1 className="text-4xl">About us</h1>
                     </section>
