@@ -6,15 +6,17 @@ import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 import ThreeScene from '../../components/ThreeScene';
 import useGsapAnimations from '../../hooks/useGsapAnimations';
+import useASScroll from '../../hooks/useASScroll';
 
 export default function Home() {
   const sectionRef = useGsapAnimations();
+  useASScroll(); // Initialize ASScroll
 
   return (
     <div>
       <NavBar />
       <div className="pt-4">
-        <div className="flex flex-col min-h-screen" ref={sectionRef}>
+        <div className="flex flex-col min-h-screen asscroll" ref={sectionRef}>
           {/* Intro Section */}
           <section className="h-screen pl-8 lg:pl-28 flex flex-col justify-center intro-animate">
             <div className="flex flex-col lg:flex-row lg:items-center">
@@ -62,7 +64,7 @@ export default function Home() {
               <div className="flex-1 lg:w-1/5 flex flex-col items-start mb-4 lg:mb-0 animate-text">
                 <span className="text-white font-bold text-2xl mb-1">20+ </span>
                 <span className="text-white text-lg mb-1">Academic and</span>
-                <span className="text-white font-bold text-xl">Industry Partnerships</span>
+                <span className="text-white font-bold text-xl"> Industry Partnerships</span>
               </div>
 
               <div className="hidden lg:block lg:w-px lg:bg-white lg:h-1/2 lg:mx-4"></div>
@@ -115,8 +117,10 @@ export default function Home() {
             </h1>
             <div className="flex flex-col justify-center">
               <span className="text-3xl text-black animate-text">Real-Time Vision Processing with Intel Realsense</span>
-              <span className="text-3xl text-black animate-text">Depth Camera Integration and More.</span>
+              <span className="text-3xl text-black animate-text">and Depth Cameras, Capable of Real-Time</span>
+              <span className="text-3xl text-black animate-text">Mapping, Obstacle Detection, and Avoidance.</span>
             </div>
+            <hr className="border-t-2 border-gray-500 my-8 lg:my-6 animate-text" />
             <div className="w-full h-screen animate-image">
               <ThreeScene />
             </div>
