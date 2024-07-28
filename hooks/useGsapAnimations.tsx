@@ -30,7 +30,7 @@ const useGsapAnimations = () => {
         const animateText = gsap.fromTo(
           section.querySelectorAll('.animate-text'),
           { opacity: 0, y: 50 },
-          { opacity: 1, y: 0, stagger: 0.3, duration: 1.5, ease: 'power3.out', paused: true }
+          { opacity: 1, y: 0, stagger: 0.3, duration: 1, ease: 'power3.out', paused: true }
         );
 
         const animateImage = gsap.fromTo(
