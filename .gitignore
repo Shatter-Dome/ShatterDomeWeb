@@ -26,6 +26,14 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+.env
+.env.example
+.env.local
+.env.staging
+*.env
+*.env.example
+*.env.local
+*.env.staging
 
 # vercel
 .vercel
