@@ -1,212 +1,144 @@
-"use client";
-import { useState, useEffect, ChangeEvent } from 'react';
-import Head from 'next/head';
-import Image from "next/image";
-import { Product, ProductName } from '../../types/interfaces';
-import React from "react";
+import Image from 'next/image';
+import NavBar from "../../components/NavBar";
+import Footer from "../../components/Footer";
+import ThreeScene from '../../components/ThreeScene';
+
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'ShatterDome',
+}
 
 export default function Home() {
-    const [productName, setProductName] = useState<ProductName>('Alpha');
-    const [productVersion, setProductVersion] = useState<string>('1.0.0');
-    const [products, setProducts] = useState<Product[]>([]);
-
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await fetch('/api/products');
-                if (response.ok) {
-                    const data = await response.json();
-                    setProducts(data.products);
-                } else {
-                    throw new Error('Failed to fetch products');
-                }
-            } catch (error) {
-                console.error('Error fetching products:', error);
-            }
-        };
-        fetchProducts();
-    }, []);
-
-    useEffect(() => {
-        if (products.length > 0) {
-            const defaultProduct = products.find(product => product.name === productName);
-            if (defaultProduct) {
-                setProductVersion(defaultProduct.version);
-            }
-        }
-    }, [productName, products]);
-
-    useEffect(() => {
-        const handleScroll = (e: Event) => {
-            e.preventDefault();
-            const target = e.currentTarget as HTMLAnchorElement;
-            const targetId = target.getAttribute('href')?.replace('#', '');
-            const targetElement = document.getElementById(targetId || '');
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop,
-                    behavior: 'smooth',
-                });
-            }
-        };
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', handleScroll); // Correctly typed event listener
-        });
-
-        return () => {
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.removeEventListener('click', handleScroll); // Remove correctly typed event listener
-            });
-        };
-    }, []);
-
-    const handleProductNameChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        const selectedProductName = event.target.value as ProductName;
-        setProductName(selectedProductName);
-        const defaultVersion = products.find(product => product.name === selectedProductName)?.version || '1.0.0';
-        setProductVersion(defaultVersion);
-    };
-
-    const handleProductVersionChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        setProductVersion(event.target.value);
-    };
-
-    const getProductDescription = (): string | undefined => {
-        const selectedProduct = products.find(product => product.name === productName && product.version === productVersion);
-        return selectedProduct ? selectedProduct.desc : undefined;
-    };
-
-    const getImageSrc = (): string => {
-        const selectedProduct = products.find(product => product.name === productName && product.version === productVersion);
-        if (selectedProduct) {
-            const imageName = `${selectedProduct.name}${productVersion.replace(/\./g, '_')}.png`;
-            return `/${imageName}`;
-        }
-        return '';
-    };
-
     return (
         <div>
-            <Head>
-                <title>ShatterDome</title>
-            </Head>
-
-            <nav className="bg-gray-800 p-4 fixed w-full z-10 top-0">
-                <div className="container mx-auto flex justify-between items-center">
-                    <div className="text-white text-lg font-bold">
-                        Logo
-                    </div>
-                    <div className="space-x-4">
-                        <a href="#company" className="text-white hover:text-black hover:">Company</a>
-                        <a href="#product" className="text-white hover:text-black">Product</a>
-                        <a href="#pricing" className="text-white hover:text-black">Pricing</a>
-                        <a href="#support" className="text-white hover:text-black">Support</a>
-                        <button className="bg-blue-500 text-white px-4 py-2 rounded">
-                            Buy Now
-                        </button>
-                    </div>
-                </div>
-            </nav>
-
-            <div className="pt-16">
+            <NavBar/>
+            <div className="pt-4">
                 <div className="flex flex-col min-h-screen">
-                    <section id="company" className="h-screen p-8 lg:p-28 flex flex-col justify-center bg-gray-200">
-                        <h1 className="text-4xl lg:text-5xl font-bold text-left mb-8 lg:mb-12">About ShatterDome</h1>
+                    <section className="h-screen pl-8 lg:pl-28 flex flex-col justify-center">
                         <div className="flex flex-col lg:flex-row lg:items-center">
-                            <div className="lg:w-1/2 mb-8 lg:mb-0 pr-8">
-                                <p className="text-lg mt-4">
-                                    At ShatterDome Robotics, we are pioneers in the realm of quadruple robotics, driven
-                                    by a passion for cutting-edge technology and a commitment to excellence. Founded by
-                                    a group of ambitious college students, our startup is dedicated to revolutionizing
-                                    the robotics industry with innovative products.
-                                </p>
-                                <p className="text-lg mt-4">
-                                    Our vision at ShatterDome is a future where robotics seamlessly integrate into
-                                    everyday life, enhancing efficiency and convenience for individuals and businesses
-                                    alike.
-                                </p>
-                            </div>
-                            <div className="lg:w-1/2 flex justify-center lg:justify-end">
-                                <Image width={500} height={500} src="/IMG_0818.png" alt="Company Image"
-                                     className="rounded-lg shadow-lg w-72 h-72 lg:w-full lg:h-auto"/>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="product" className="h-screen p-8 lg:p-28 flex flex-col justify-center bg-gray-300">
-                        <h1 className="text-4xl lg:text-5xl font-bold text-left mb-8 lg:mb-12">Product</h1>
-                        <div className="flex justify-left mb-4">
-                            <div className="mr-4">
-                                <label htmlFor="productName" className="mr-2 font-bold">Product:</label>
-                                <select
-                                    id="productName"
-                                    value={productName}
-                                    onChange={handleProductNameChange}
-                                    className="border border-gray-400 rounded-md px-2 py-1"
-                                >
-                                    {products
-                                        .filter((product, index, self) =>
-                                                index === self.findIndex((p) => (
-                                                    p.name === product.name
-                                                ))
-                                        )
-                                        .map((product) => (
-                                            <option key={product._id} value={product.name}>
-                                                {product.name}
-                                            </option>
-                                        ))}
-                                </select>
+                            <div>
+                                <span className="text-black font-bold text-8xl">ALPHA</span>
+                                <div
+                                    className="font-bold text-8xl bg-clip-text text-transparent bg-gradient-to-b from-gradient-1 to-gradient-2">
+                                    <span className="block">QUADRUPED</span>
+                                    <span className="block">ROBOT</span>
+                                </div>
+                                <div className="text-black pt-4 text-lg">
+                                    <span className="block">Comprehensive STEM Kit for Mastering ROS</span>
+                                    <span className="block"> and Reinforcement Learning</span>
+                                </div>
+                                <div className="pt-8">
+                                    <button className="bg-black text-white py-4 px-8">
+                                        Preorder Now
+                                    </button>
+                                </div>
                             </div>
                             <div>
-                                <label htmlFor="productVersion" className="mr-2 font-bold">Version:</label>
-                                <select
-                                    id="productVersion"
-                                    value={productVersion}
-                                    onChange={handleProductVersionChange}
-                                    className="border border-gray-400 rounded-md px-2 py-1"
-                                >
-                                    {products.map((product) => (
-                                        product.name === productName ? (
-                                            <option key={product._id} value={product.version}>
-                                                {product.version}
-                                            </option>
-                                        ) : null
-                                    ))}
-                                </select>
+                                <Image src="/bot1.png" alt="robot1" width="800" height="800"/>
                             </div>
                         </div>
-                        <div className="flex flex-col lg:flex-row lg:items-center mt-8">
-                            <div className="lg:w-full flex justify-center lg:justify-start mb-8 lg:mb-0">
-                                <Image width={500} height={500} src={getImageSrc()} alt="Product Image"
-                                       className="rounded-lg shadow-lg lg:w-full lg:h-auto"/>
-                            </div>
-                            <div className="lg:w-5/6 h-auto">
-                                <p className="text-lg mt-4 pl-8">
-                                    {getProductDescription() || (
-                                        "Select a product and version to see its description."
-                                    )}
+                    </section>
+
+                    <section className="h-screen p-8 lg:p-28 flex flex-col justify-center bg-black">
+                        <h1 className="text-4xl lg:text-5xl font-semibold text-left mb-8 lg:mb-12 text-white">Your
+                            Gateway to Robotics</h1>
+                        <div className="flex flex-col lg:flex-row lg:items-center">
+                            <div className="mb-8 lg:mb-0 pr-8 text-white">
+                                <p className="text-2xl mt-4">
+                                    Unlock the potential of ROS2 and reinforcement learning with our robotics kit.
+                                    Designed for undergraduates and researchers, it provides a practical approach
+                                    to learning and applying robotics concepts.
                                 </p>
                             </div>
                         </div>
+                        <div className="flex flex-col lg:flex-row lg:items-center pt-16">
+                            <div className="flex-1 lg:w-1/5 flex flex-col items-start mb-4 lg:mb-0">
+                                <span className="text-white font-bold text-2xl mb-1">10K+ </span>
+                                <span className="text-white text-lg mb-1">students and researchers</span>
+                                <span className="text-white font-bold text-xl">Empowered</span>
+                            </div>
+
+                            <div className="hidden lg:block lg:w-px lg:bg-white lg:h-1/2 lg:mx-4"></div>
+
+                            <div className="flex-1 lg:w-1/5 flex flex-col items-start mb-4 lg:mb-0">
+                                <span className="text-white font-bold text-2xl mb-1">20+ </span>
+                                <span className="text-white text-lg mb-1">Academic and</span>
+                                <span className="text-white font-bold text-xl">Industry Partnerships</span>
+                            </div>
+
+                            <div className="hidden lg:block lg:w-px lg:bg-white lg:h-1/2 lg:mx-4"></div>
+
+                            <div className="flex-1 lg:w-1/5 flex flex-col items-start mb-4 lg:mb-0">
+                                <span className="text-white font-bold text-2xl mb-1">4.9</span>
+                                <span className="text-white text-lg mb-1">Average</span>
+                                <span className="text-white font-bold text-xl"> Product Rating</span>
+                            </div>
+
+                            <div className="flex-1 lg:w-2/5 flex flex-col justify-center lg:justify-start">
+                                <Image src="/bot2.png" alt="robot2" width="1000" height="1000"/>
+                            </div>
+                        </div>
                     </section>
 
-                    <section id="pricing" className="h-screen flex items-center justify-center bg-gray-400">
-                        <h1 className="text-4xl">Pricing</h1>
+                    <section className="h-screen px-8 lg:px-28 flex flex-col justify-center pt-48">
+                        <h1 className="text-4xl lg:text-5xl font-semibold text-left mb-4 lg:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gradient-1 to-gradient-2">ROBOTICS
+                            CAPABILITIES</h1>
+                        <div className="flex flex-col">
+                            <span
+                                className="text-3xl text-black">The 12 Degrees of Freedom allows Precision control and</span>
+                            <span className="text-3xl text-black">Inverse kinematics. This creates several advantages over</span>
+                            <span className="text-3xl text-black">other Kits.</span>
+                        </div>
+                        <hr className="border-t-2 border-gray-500 my-8 lg:my-6"/>
+                        <div className="flex justify-center gap-8 mt-4">
+                            <div className="flex-1 max-w-lg rounded-lg">
+                                <Image height="500" width="500" src="/bot3.png" alt="robot3"
+                                       className="w-full h-auto object-cover rounded-l-3xl"/>
+                            </div>
+                            <div className="flex-1 max-w-lg bg-black rounded-r-3xl">
+                                <Image height="500" width="500" src="/bot4.png" alt="robot4"
+                                       className="w-full h-auto object-cover rounded-r-3xl"/>
+                            </div>
+                        </div>
                     </section>
 
-                    <section id="support" className="h-screen flex items-center justify-center bg-gray-500">
-                        <h1 className="text-4xl">Support</h1>
+                    <section className="flex flex-col justify-center items-center mt-52 mx-28 ">
+                        <div className="relative flex justify-center items-center w-full bg-black h-screen rounded-3xl">
+                            <Image src="/bot5.png" alt="robot5" height="500" width="500"
+                                   className="w-auto h-auto object-cover"/>
+                            <div className="absolute flex flex-col bottom-20 left-16 text-white text-3xl font-bold">
+                                <span className="block">Alpha Basic</span>
+                                <span className="block">version</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <hr className="border-t-2 border-gray-500 lg:my-16 mx-24"/>
+
+                    <section className="h-screen flex flex-col px-32 pt-6">
+                        <h1 className="text-5xl lg:text-8xl font-md text-left mb-8 lg:mb-12 text-black">
+                            <span className="block">Embrace the possibilities with</span>
+                            <span
+                                className="block font-bold bg-clip-text text-transparent bg-gradient-to-b from-gradient-1 to-gradient-2 pt-8">Alpha</span>
+                        </h1>
+                        <p className="text-gray-400 text-3xl">
+                            Alpha Quadrupled Robot Platform empowers users with incredible features. Swipe!
+                        </p>
+                        <div className="flex flex-col items-center justify-center bg-black mt-16 rounded-3xl relative">
+    <div className="w-full h-full">
+        <ThreeScene />
+    </div>
+</div>
+
+                    </section>
+                    <br></br>
+                    <section className="h-screen flex items-center justify-center">
+                        <h1 className="text-4xl">About us</h1>
                     </section>
                 </div>
             </div>
-            <footer className="bg-gray-800 text-white p-4">
-                <div className="container mx-auto">
-                    <div className="text-center">
-                        &copy;copyright 2024 ShatterDome
-                    </div>
-                </div>
-            </footer>
+            <Footer/>
         </div>
-    )
+    );
 }

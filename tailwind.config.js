@@ -7,7 +7,18 @@ module.exports = {
     './src/admin/dashboard/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        inter: ['Inter', 'sans-serif'],
+        impact: ['Impact', 'sans-serif'],
+        poppins: ['Poppins', 'sans-serif'],
+        Calligraffitti: ['Calligraffitti', 'cursive'],
+      },
+      colors: {
+        'gradient-1': '#FFC583',
+        'gradient-2': '#FF655F',
+      }
+    },
   },
   plugins: [],
 };
