@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import Image from 'next/image';
 import NavBar from "../../../components/NavBar";
 import Footer from "../../../components/Footer";
@@ -46,5 +47,16 @@ export default function Home() {
             </div>
             <Footer/>
         </div>
+=======
+import dynamic from "next/dynamic";
+
+const ClientOnlyComponent1 = dynamic(() => import('../../../components/product'), {
+    ssr: false,
+});
+
+export default function Home() {
+    return (
+        <ClientOnlyComponent1 />
+>>>>>>> Stashed changes
     );
 }
