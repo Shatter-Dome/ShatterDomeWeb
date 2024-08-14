@@ -3,7 +3,9 @@
 
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+// @ts-ignore
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+// @ts-ignore
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GUI } from 'dat.gui';
 
@@ -72,7 +74,7 @@ const ThreeScene: React.FC = () => {
         const loader = new GLTFLoader();
         loader.load(
             '/models/model.glb',
-            (gltf) => {
+            (gltf: { scene: any; }) => {
                 const model = gltf.scene;
 
                 // Center the model
@@ -83,7 +85,7 @@ const ThreeScene: React.FC = () => {
                 scene.add(model);
             },
             undefined,
-            (error) => {
+            (error: any) => {
                 console.error(error);
             }
         );

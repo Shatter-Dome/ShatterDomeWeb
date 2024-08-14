@@ -20,7 +20,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-scroll": "^1.9.0",
-    "three": "^0.167.0"
+    "three": "^0.167.1"
   },
   "devDependencies": {
     "@types/dat.gui": "^0.7.13",

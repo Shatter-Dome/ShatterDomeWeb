@@ -4,20 +4,20 @@ import React from 'react';
 import Image from 'next/image';
 import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
-import ThreeScene from '../../components/ThreeScene';
-import useGsapAnimations from '../../hooks/useGsapAnimations';
-import useASScroll from '../../hooks/useASScroll';
+import dynamic from 'next/dynamic';
+
+const ClientOnlyComponent1 = dynamic(() => import('../../components/ThreeScene'), {
+  ssr: false,
+  loading: () => <p>Loading...</p>,
+});
 
 export default function Home() {
-  const sectionRef = useGsapAnimations();
-  useASScroll(); // Initialize ASScroll
 
   return (
     <div>
       <NavBar />
       <div className="pt-4">
-        <div className="flex flex-col min-h-screen asscroll" ref={sectionRef}>
-          {/* Intro Section */}
+        <div className="flex flex-col min-h-screen asscroll">
           <section className="h-screen px-4 lg:pl-28 flex flex-col justify-center intro-animate">
             <div className="flex flex-col lg:flex-row lg:items-center">
               <div>
@@ -122,7 +122,7 @@ export default function Home() {
             </div>
             <hr className="border-t-2 border-gray-500 my-8 lg:my-6 animate-text" />
             <div className="w-full h-screen animate-image">
-              <ThreeScene />
+              <ClientOnlyComponent1 />
             </div>
           </section>
 
