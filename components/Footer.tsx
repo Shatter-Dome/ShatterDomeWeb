@@ -14,10 +14,13 @@ const Footer = () => {
                         <Image src="/facebook-icon.svg" alt="Facebook" height={24} width={24} className="hover:opacity-75"/>
                     </a>
                     <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                        <Image src="/twitter-icon.svg" alt="Twitter" height={24} width={24} className="hover:opacity-75"/>
+                        <Image src="/x-icon.svg" alt="Twitter" height={24} width={24} className="hover:opacity-75"/>
                     </a>
-                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <a href="https://www.instagram.com/shatterdomelabs/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                         <Image src="/instagram-icon.svg" alt="Instagram" height={24} width={24} className="hover:opacity-75"/>
+                    </a>
+                    <a href="https://www.linkedin.com/company/shatterdome-labs" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                        <Image src="/linkedin-icon.svg" alt="Instagram" height={24} width={24} className="hover:opacity-75"/>
                     </a>
                 </div>
             </div>

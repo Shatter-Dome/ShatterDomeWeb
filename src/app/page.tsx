@@ -31,9 +31,12 @@ export default function Home() {
                   <span className="block"> and Reinforcement Learning</span>
                 </div>
                 <div className="pt-8 intro-animate-text">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe9nevJdIkIJjcPLBy4vx5uV0_c7Y0m5EyalvViDahKbukuvw/viewform">
                   <button className="bg-black text-white py-2 px-4 lg:py-4 lg:px-8">
                     Preorder Now
                   </button>
+                </a>
+
                 </div>
               </div>
               <div className="intro-animate-image">
@@ -130,12 +133,14 @@ export default function Home() {
             <h1 className="text-4xl lg:text-6xl font-bold text-center mb-6 lg:mb-12 animate-text">Join the Future of Robotics</h1>
             <div className="flex flex-col items-center text-center text-xl lg:text-3xl text-black">
               <p className="animate-text">Pre-order your Alpha Quadruped Robot today and be part of the next generation of robotics enthusiasts and professionals.</p>
-              <button className="mt-8 bg-gradient-to-r from-gradient-1 to-gradient-2 text-white py-2 lg:py-4 px-4 lg:px-8 rounded animate-text">Preorder Now</button>
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSe9nevJdIkIJjcPLBy4vx5uV0_c7Y0m5EyalvViDahKbukuvw/viewform">
+                <button className="mt-8 bg-gradient-to-r from-gradient-1 to-gradient-2 text-white py-2 lg:py-4 px-4 lg:px-8 rounded animate-text">Preorder Now</button>
+              </a>
             </div>
           </section>
         </div>
       </div>
-      <Footer />
+      <Footer/>
     </div>
   );
 }
