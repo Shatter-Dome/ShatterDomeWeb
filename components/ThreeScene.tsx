@@ -127,7 +127,18 @@ const ThreeScene: React.FC = () => {
         };
     };
 
-    return <div ref={mountRef} style={{ width: '100%', height: '500px', position: 'relative', borderRadius: '10px', overflow: 'hidden' }} />;
+    return (
+        <div
+            ref={mountRef}
+            style={{
+                width: '100%',
+                height: '600px',  // Increased height for larger display
+                position: 'relative',
+                borderRadius: '10px',
+                overflow: 'hidden'
+            }}
+        />
+    );
 };
 
 export default ThreeScene;

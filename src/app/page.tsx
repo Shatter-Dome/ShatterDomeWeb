@@ -132,9 +132,10 @@ export default function Home() {
               <hr className="border-t-2 border-gray-500 my-8 lg:my-6 animate-text" />
               <div className="w-full h-[400vh] animate-image">
 
-                <ClientOnlyComponent1 />
+            <ClientOnlyComponent1 />
               </div>
             </section>
+            
 
             <section className="h-screen flex flex-col justify-center animate-section">
               <h1 className="text-4xl lg:text-6xl font-bold text-center mb-6 lg:mb-12 animate-text">Join the Future of Robotics</h1>
