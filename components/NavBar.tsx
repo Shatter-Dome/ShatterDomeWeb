@@ -29,7 +29,7 @@ const NavBar = () => {
                     <Link href="/" className={currentPath === "/" ? "text-black" : "text-gray-400 hover:text-black"}>Home</Link>
                     <Link href="/product" className={currentPath === "/product" ? "text-black" : "text-gray-400 hover:text-black"}>Product</Link>
                     <Link href="/contacts" className={currentPath === "/contacts" ? "text-black" : "text-gray-400 hover:text-black"}>Contacts</Link>
-                    <Link href="/aboutus" className={currentPath === "/aboutus" ? "text-black" : "text-gray-400 hover:text-black"}>About us</Link>
+                    <Link href="/aboutus" className={currentPath === "/aboutus" ? "text-black" : "text-gray-400 hover:text-black"}>About Us</Link>
                 </div>
                 <div className="flex space-x-4 mt-4 md:mt-0">
                     <Link href="/cart">
