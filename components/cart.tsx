@@ -57,9 +57,16 @@ export default function Home() {
                         <div className="mt-4 lg:mt-8 animate-text text-xs lg:text-base">
                             *The Shipping will be calculated based on the destination country.
                         </div>
+
+                        <a
+                        href="https://forms.gle/NxmcyekWypdxc5zR8"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >
                         <button className="bg-black text-base lg:text-xl text-white py-2 lg:py-4 px-4 lg:px-8 rounded-lg mt-8 lg:mt-16 animate-text">
                             Purchase Now
                         </button>
+                        </a>
                     </div>
                 </div>
             </div>
