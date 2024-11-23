@@ -219,7 +219,7 @@ const AboutUsPage = () => {
                 innovation and education
               </p>
               <a
-                href="https://forms.gle/NxmcyekWypdxc5zR8"
+                href="https://chat.whatsapp.com/Jt5ZnoCQoaOFl3XuyCqhNN"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-6 lg:mt-8 animate-text"

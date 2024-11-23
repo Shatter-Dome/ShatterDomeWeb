@@ -15,8 +15,19 @@ const NavBar = () => {
     return (
         <nav className="fixed w-full z-30 top-0 bg-white">
             <div className="container mx-auto flex flex-wrap items-center justify-between py-4 px-5">
-                <div className="text-black text-2xl font-bold font-impact">
-                    ShatterDome
+                <div className="flex items-center space-x-2">
+                    <Link href="/">
+                        <Image 
+                            src="/logo.png" 
+                            alt="ShatterDome Logo" 
+                            width={40} 
+                            height={40} 
+                            className="object-contain"
+                        />
+                    </Link>
+                    <span className="text-black text-2xl font-bold font-impact">
+                        ShatterDome
+                    </span>
                 </div>
                 <div className="block md:hidden">
                     <button onClick={toggleMenu} className="text-black">
