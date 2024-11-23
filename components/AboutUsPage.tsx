@@ -4,21 +4,41 @@ import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-// Register GSAP plugin
-gsap.registerPlugin(ScrollTrigger);
+// Import types for GSAP
+type GSAPInstance = typeof import('gsap').gsap;
+type ScrollTriggerInstance = typeof import('gsap/ScrollTrigger').default;
+
+let gsapLib: GSAPInstance;
+let ScrollTrigger: ScrollTriggerInstance;
 
 const AboutUsPage = () => {
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
+  const botImageRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    sectionRefs.current.forEach((section) => {
-      if (section) {
-        // Animate text elements
-        gsap.fromTo(
-          section.querySelectorAll('.animate-text'),
+    const initGSAP = async () => {
+      // Dynamic imports with proper typing
+      const gsapModule = await import('gsap');
+      const scrollTriggerModule = await import('gsap/ScrollTrigger');
+      
+      gsapLib = gsapModule.gsap;
+      ScrollTrigger = scrollTriggerModule.default;
+      
+      // Register ScrollTrigger plugin
+      gsapLib.registerPlugin(ScrollTrigger);
+
+      // Initialize animations after GSAP is loaded
+      initAnimations();
+    };
+
+    const initAnimations = () => {
+      if (!gsapLib) return;
+
+      // Animate bot image with same style as text
+      if (botImageRef.current) {
+        gsapLib.fromTo(
+          botImageRef.current,
           { 
             opacity: 0, 
             y: 50 
@@ -27,37 +47,65 @@ const AboutUsPage = () => {
             opacity: 1, 
             y: 0, 
             duration: 1,
-            stagger: 0.2,
-            scrollTrigger: {
-              trigger: section,
-              start: 'top 80%',
-              end: 'bottom 20%',
-              toggleActions: 'play none none reverse'
-            }
-          }
-        );
-
-        // Animate image elements
-        gsap.fromTo(
-          section.querySelectorAll('.animate-image'),
-          { 
-            opacity: 0, 
-            scale: 0.9 
-          },
-          { 
-            opacity: 1, 
-            scale: 1,
-            duration: 1,
-            scrollTrigger: {
-              trigger: section,
-              start: 'top 80%',
-              end: 'bottom 20%',
-              toggleActions: 'play none none reverse'
-            }
+            delay: 0.6 // Slight delay after text animations
           }
         );
       }
-    });
+
+      sectionRefs.current.forEach((section) => {
+        if (section) {
+          // Animate text elements
+          gsapLib.fromTo(
+            section.querySelectorAll('.animate-text'),
+            { 
+              opacity: 0, 
+              y: 50 
+            },
+            { 
+              opacity: 1, 
+              y: 0, 
+              duration: 1,
+              stagger: 0.2,
+              scrollTrigger: {
+                trigger: section,
+                start: 'top 80%',
+                end: 'bottom 20%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+
+          // Animate image elements
+          gsapLib.fromTo(
+            section.querySelectorAll('.animate-image'),
+            { 
+              opacity: 0, 
+              scale: 0.9 
+            },
+            { 
+              opacity: 1, 
+              scale: 1,
+              duration: 1,
+              scrollTrigger: {
+                trigger: section,
+                start: 'top 80%',
+                end: 'bottom 20%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        }
+      });
+    };
+
+    initGSAP();
+
+    // Cleanup function
+    return () => {
+      if (ScrollTrigger) {
+        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      }
+    };
   }, []);
 
   const addToRefs = (el: HTMLElement | null) => {
@@ -71,32 +119,33 @@ const AboutUsPage = () => {
       <NavBar />
       <div className="pt-4">
         <div className="flex flex-col min-h-screen asscroll">
-{/* Hero Section */}
-<section ref={addToRefs} className="min-h-screen px-4 lg:px-28 flex flex-col justify-center">
-  <div className="mt-20 lg:mt-0 lg:flex lg:items-center lg:justify-between">
-    <div>
-      <span className="text-black font-bold text-4xl lg:text-8xl animate-text">WHO</span>
-      <div className="font-bold text-4xl lg:text-8xl bg-clip-text text-transparent bg-gradient-to-b from-gradient-1 to-gradient-2 animate-text">
-        <span className="block">WE</span>
-        <span className="block">ARE</span>
-      </div>
-      <div className="text-black pt-4 text-base lg:text-lg animate-text">
-        <span className="block">A team of passionate robotics enthusiasts</span>
-        <span className="block">pushing the boundaries of innovation</span>
-      </div>
-    </div>
-    <div className="mt-8 lg:mt-0 lg:ml-8 w-full lg:w-1/2">
-      <Image 
-        className='intro-animate-image w-full lg:w-auto h-auto object-contain' 
-        src="/bot10.png" 
-        alt="robot10" 
-        width={800} 
-        height={800} 
-        priority 
-      />
-    </div>
-  </div>
-</section>
+          {/* Hero Section */}
+          <section ref={addToRefs} className="min-h-screen px-4 lg:px-28 flex flex-col justify-center">
+            <div className="mt-20 lg:mt-0 lg:flex lg:items-center lg:justify-between">
+              <div>
+                <span className="text-black font-bold text-4xl lg:text-8xl animate-text">WHO</span>
+                <div className="font-bold text-4xl lg:text-8xl bg-clip-text text-transparent bg-gradient-to-b from-gradient-1 to-gradient-2 animate-text">
+                  <span className="block">WE</span>
+                  <span className="block">ARE</span>
+                </div>
+                <div className="text-black pt-4 text-base lg:text-lg animate-text">
+                  <span className="block">A team of passionate robotics enthusiasts</span>
+                  <span className="block">pushing the boundaries of innovation</span>
+                </div>
+              </div>
+              <div className="mt-8 lg:mt-0 lg:ml-8 w-full lg:w-1/2">
+                <Image 
+                  ref={botImageRef}
+                  className='w-full lg:w-auto h-auto object-contain' 
+                  src="/bot10.png" 
+                  alt="robot10" 
+                  width={800} 
+                  height={800} 
+                  priority 
+                />
+              </div>
+            </div>
+          </section>
 
           {/* Vision Section */}
           <section ref={addToRefs} className="min-h-screen p-4 lg:p-28 flex flex-col justify-center bg-black">
@@ -104,7 +153,7 @@ const AboutUsPage = () => {
             <div className="flex flex-col lg:flex-row gap-12 items-center">
               <div className="lg:w-1/2">
                 <p className="text-lg lg:text-2xl text-white animate-text">
-                  We are a group of undergraduate students who came together with a shared vision to revolutionize robotics education. Our journey began with a simple idea: make advanced robotics accessible to everyone.
+                  We&apos;re a group of undergraduate students who came together with a shared vision to revolutionize robotics education. Our journey began with a simple idea: make advanced robotics accessible to everyone.
                 </p>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-12">
                   <div className="flex flex-col items-start p-6 bg-white/5 rounded-lg animate-text">
@@ -155,7 +204,7 @@ const AboutUsPage = () => {
               <div className="bg-black p-8 rounded-xl animate-text">
                 <h3 className="text-white text-2xl font-bold mb-4">Mission</h3>
                 <p className="text-white text-lg">
-                  We're dedicated to making advanced robotics education accessible to students and researchers worldwide through our comprehensive platform.
+                   We&apos;re dedicated to making advanced robotics education accessible to students and researchers worldwide through our comprehensive platform.
                 </p>
               </div>
             </div>
