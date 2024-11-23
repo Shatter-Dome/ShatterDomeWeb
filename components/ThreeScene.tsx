@@ -11,12 +11,16 @@ import { Play, Pause } from "lucide-react";
 const ThreeScene: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
   const requestRef = useRef<number>();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [sceneInitialized, setSceneInitialized] = useState(false);
   const controlsRef = useRef<OrbitControls | null>(null);
+  const cleanupRef = useRef<(() => void) | null>(null);
 
-  useEffect(() => {
-    if (!mountRef.current) return;
+  const initScene = () => {
+    if (!mountRef.current || sceneInitialized) return;
+    
+    setLoading(true);
 
     // Create the scene
     const scene = new THREE.Scene();
@@ -44,8 +48,7 @@ const ThreeScene: React.FC = () => {
     controls.dampingFactor = 0.1;
     controls.screenSpacePanning = false;
     controls.maxPolarAngle = Math.PI / 2;
-    // Disable controls initially
-    controls.enabled = false;
+    controls.enabled = true;
 
     // Add lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -63,7 +66,7 @@ const ThreeScene: React.FC = () => {
     const loader = new GLTFLoader();
     loader.load(
       "/models/model.glb",
-      (gltf: { scene: any }) => {
+      (gltf: { scene: any; }) => {
         const model = gltf.scene;
 
         // Center the model
@@ -73,6 +76,7 @@ const ThreeScene: React.FC = () => {
 
         scene.add(model);
         setLoading(false);
+        setSceneInitialized(true);
       },
       undefined,
       (error: any) => {
@@ -83,8 +87,9 @@ const ThreeScene: React.FC = () => {
 
     // Handle window resize
     const handleResize = () => {
-      renderer.setSize(mountRef.current!.clientWidth, mountRef.current!.clientHeight);
-      camera.aspect = mountRef.current!.clientWidth / mountRef.current!.clientHeight;
+      if (!mountRef.current) return;
+      renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
+      camera.aspect = mountRef.current.clientWidth / mountRef.current.clientHeight;
       camera.updateProjectionMatrix();
     };
 
@@ -100,18 +105,38 @@ const ThreeScene: React.FC = () => {
 
     renderScene();
 
-    return () => {
+    // Store cleanup function
+    cleanupRef.current = () => {
       window.removeEventListener("resize", debouncedResize);
-      if (requestRef.current) cancelAnimationFrame(requestRef.current);
-      mountRef.current?.removeChild(renderer.domElement);
+      if (requestRef.current) {
+        cancelAnimationFrame(requestRef.current);
+      }
+      if (mountRef.current?.contains(renderer.domElement)) {
+        mountRef.current.removeChild(renderer.domElement);
+      }
+      controls.dispose();
+      renderer.dispose();
+      setSceneInitialized(false);
+    };
+  };
+
+  // Cleanup effect
+  useEffect(() => {
+    return () => {
+      if (cleanupRef.current) {
+        cleanupRef.current();
+      }
     };
   }, []);
 
-  // Toggle controls
+  // Toggle controls and scene initialization
   const toggleControls = () => {
+    if (!sceneInitialized) {
+      initScene();
+    }
+    setIsPlaying(!isPlaying);
     if (controlsRef.current) {
-      controlsRef.current.enabled = !controlsRef.current.enabled;
-      setIsPlaying(!isPlaying);
+      controlsRef.current.enabled = !isPlaying;
     }
   };
 
@@ -133,6 +158,7 @@ const ThreeScene: React.FC = () => {
         position: "relative",
         borderRadius: "10px",
         overflow: "hidden",
+        background: "#000000",
       }}
     >
       {loading && (
@@ -155,10 +181,11 @@ const ThreeScene: React.FC = () => {
         </div>
       )}
       
-      {!isPlaying && !loading && (
+      {!isPlaying && (
         <button
           onClick={toggleControls}
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white bg-opacity-20 p-6 rounded-full hover:bg-opacity-30 transition-all duration-300"
+          aria-label="Play 3D Scene"
         >
           <Play className="w-12 h-12 text-white" />
         </button>
@@ -168,23 +195,16 @@ const ThreeScene: React.FC = () => {
         <button
           onClick={toggleControls}
           className="absolute top-4 right-4 bg-black bg-opacity-50 p-2 rounded-full hover:bg-opacity-70 transition-all duration-300"
+          aria-label="Pause 3D Scene"
         >
           <Pause className="w-6 h-6 text-white" />
         </button>
       )}
 
-      {isPlaying && (
+      {isPlaying && sceneInitialized && (
         <div
-          style={{
-            position: "absolute",
-            bottom: "10px",
-            left: "10px",
-            color: "white",
-            fontSize: "14px",
-            background: "rgba(0, 0, 0, 0.5)",
-            padding: "5px 10px",
-            borderRadius: "5px",
-          }}
+          className="absolute bottom-4 left-4 text-white text-sm bg-black bg-opacity-50 px-3 py-2 rounded-lg"
+          role="tooltip"
         >
           <p>Use mouse to rotate, zoom, and pan</p>
         </div>
