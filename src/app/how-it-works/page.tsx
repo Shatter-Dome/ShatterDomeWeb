@@ -3,7 +3,7 @@ import React from 'react';
 import RoboticsLoader from '../../../components/RoboticsLoader';
 
 
-const ClientOnlyComponent1 = dynamic(() => import('../../../components/cart'), {
+const ClientOnlyComponent1 = dynamic(() => import("../../../components/HowItWorks"), {
     ssr: false,
     loading: () => <RoboticsLoader/>,
 });

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { Mail } from 'lucide-react';
 
 const Footer = () => {
     return (
@@ -30,6 +31,9 @@ const Footer = () => {
                             width={30}
                             className="hover:opacity-75"
                         />
+                    </a>
+                    <a href="mailto:shatterdomelabs@gmail.com" aria-label="Email" className="hover:opacity-75">
+                        <Mail size={28} />
                     </a>
                 </div>
             </div>

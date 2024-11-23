@@ -1,9 +1,10 @@
 import dynamic from 'next/dynamic';
 import React from 'react';
+import RoboticsLoader from '../../../components/RoboticsLoader';
 
 const ClientOnlyComponent1 = dynamic(() => import('../../../components/AboutUsPage'), {
     ssr: false,
-    loading: () => <p>Loading...</p>,
+    loading: () => <RoboticsLoader/>,
 });
 
 export default function Home() {

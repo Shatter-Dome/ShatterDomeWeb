@@ -231,9 +231,18 @@ export default function Home() {
               be part of the next generation of robotics<br />
               enthusiasts and professionals.
             </p>
+
+              <div className="pt-6 lg:pt-8 intro-animate-text animate-text">
+  <a
+    href="https://forms.gle/NxmcyekWypdxc5zR8"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
               <button className="mt-6 lg:mt-8 bg-gradient-to-r from-gradient-1 to-gradient-2 text-white py-2 lg:py-4 px-4 lg:px-8 rounded text-base lg:text-xl animate-text">
                 Join Waiting List!
               </button>
+  </a>
+</div>
             </div>
           </section>
         </div>

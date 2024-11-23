@@ -4,6 +4,7 @@ import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import RoboticsLoader from './RoboticsLoader';
 
 // Import types for GSAP
 type GSAPInstance = typeof import('gsap').gsap;
@@ -125,8 +126,7 @@ const AboutUsPage = () => {
               <div>
                 <span className="text-black font-bold text-4xl lg:text-8xl animate-text">WHO</span>
                 <div className="font-bold text-4xl lg:text-8xl bg-clip-text text-transparent bg-gradient-to-b from-gradient-1 to-gradient-2 animate-text">
-                  <span className="block">WE</span>
-                  <span className="block">ARE</span>
+                  <span className="block">WE ARE ?</span>
                 </div>
                 <div className="text-black pt-4 text-base lg:text-lg animate-text">
                   <span className="block">A team of passionate robotics enthusiasts</span>

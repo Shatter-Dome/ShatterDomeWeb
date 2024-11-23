@@ -10,29 +10,34 @@ import { Play, Pause } from "lucide-react";
 
 const ThreeScene: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<THREE.Scene | null>(null);
+  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const requestRef = useRef<number>();
+  const modelRef = useRef<THREE.Object3D | null>(null);
   const [loading, setLoading] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [sceneInitialized, setSceneInitialized] = useState(false);
+  const [tooltipText, setTooltipText] = useState("Use mouse to rotate, zoom, and pan");
   const controlsRef = useRef<OrbitControls | null>(null);
-  const cleanupRef = useRef<(() => void) | null>(null);
 
-  const initScene = () => {
+  // Initialize basic scene elements
+  const initializeScene = () => {
     if (!mountRef.current || sceneInitialized) return;
-    
-    setLoading(true);
 
-    // Create the scene
+    // Create scene
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x000000);
+    sceneRef.current = scene;
 
-    // Set up the renderer
+    // Set up renderer
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     mountRef.current.appendChild(renderer.domElement);
+    rendererRef.current = renderer;
 
-    // Set up the camera
+    // Set up camera
     const camera = new THREE.PerspectiveCamera(
       75,
       mountRef.current.clientWidth / mountRef.current.clientHeight,
@@ -40,6 +45,7 @@ const ThreeScene: React.FC = () => {
       1000
     );
     camera.position.set(-8, 3, 4);
+    cameraRef.current = camera;
 
     // Add orbit controls
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -62,21 +68,30 @@ const ThreeScene: React.FC = () => {
     directionalLight2.position.set(-1, -1, -1).normalize();
     scene.add(directionalLight2);
 
-    // Load the GLB model
+    setSceneInitialized(true);
+  };
+
+  // Load the 3D model
+  const loadModel = () => {
+    if (!sceneRef.current) return;
+
+    setLoading(true);
     const loader = new GLTFLoader();
+
     loader.load(
       "/models/model.glb",
-      (gltf: { scene: any; }) => {
+      (gltf: { scene: any }) => {
         const model = gltf.scene;
+        modelRef.current = model;
 
         // Center the model
         const box = new THREE.Box3().setFromObject(model);
         const center = box.getCenter(new THREE.Vector3());
         model.position.sub(center);
 
-        scene.add(model);
+        sceneRef.current?.add(model);
         setLoading(false);
-        setSceneInitialized(true);
+        startAnimation();
       },
       undefined,
       (error: any) => {
@@ -84,60 +99,110 @@ const ThreeScene: React.FC = () => {
         setLoading(false);
       }
     );
+  };
 
-    // Handle window resize
+  // Start animation loop
+  const startAnimation = () => {
+    if (!rendererRef.current || !sceneRef.current || !cameraRef.current) return;
+
+    const animate = () => {
+      if (controlsRef.current) {
+        controlsRef.current.update();
+      }
+      rendererRef.current?.render(sceneRef.current!, cameraRef.current!);
+      requestRef.current = requestAnimationFrame(animate);
+    };
+
+    animate();
+  };
+
+  // Clean up scene
+  const cleanupScene = () => {
+    if (requestRef.current) {
+      cancelAnimationFrame(requestRef.current);
+    }
+
+    if (modelRef.current && sceneRef.current) {
+      sceneRef.current.remove(modelRef.current);
+      modelRef.current = null;
+    }
+
+    if (rendererRef.current) {
+      if (mountRef.current?.contains(rendererRef.current.domElement)) {
+        mountRef.current.removeChild(rendererRef.current.domElement);
+      }
+      rendererRef.current.dispose();
+      rendererRef.current = null;
+    }
+
+    if (controlsRef.current) {
+      controlsRef.current.dispose();
+      controlsRef.current = null;
+    }
+
+    if (sceneRef.current) {
+      sceneRef.current.clear();
+      sceneRef.current = null;
+    }
+
+    cameraRef.current = null;
+
+    setSceneInitialized(false);
+  };
+
+  // Handle window resize
+  useEffect(() => {
     const handleResize = () => {
-      if (!mountRef.current) return;
-      renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
-      camera.aspect = mountRef.current.clientWidth / mountRef.current.clientHeight;
-      camera.updateProjectionMatrix();
+      if (!mountRef.current || !rendererRef.current || !cameraRef.current) return;
+
+      rendererRef.current.setSize(
+        mountRef.current.clientWidth,
+        mountRef.current.clientHeight
+      );
+      cameraRef.current.aspect =
+        mountRef.current.clientWidth / mountRef.current.clientHeight;
+      cameraRef.current.updateProjectionMatrix();
     };
 
     const debouncedResize = debounce(handleResize, 100);
     window.addEventListener("resize", debouncedResize);
 
-    // Render the scene
-    const renderScene = () => {
-      controls.update();
-      renderer.render(scene, camera);
-      requestRef.current = requestAnimationFrame(renderScene);
-    };
-
-    renderScene();
-
-    // Store cleanup function
-    cleanupRef.current = () => {
-      window.removeEventListener("resize", debouncedResize);
-      if (requestRef.current) {
-        cancelAnimationFrame(requestRef.current);
-      }
-      if (mountRef.current?.contains(renderer.domElement)) {
-        mountRef.current.removeChild(renderer.domElement);
-      }
-      controls.dispose();
-      renderer.dispose();
-      setSceneInitialized(false);
-    };
-  };
-
-  // Cleanup effect
-  useEffect(() => {
     return () => {
-      if (cleanupRef.current) {
-        cleanupRef.current();
-      }
+      window.removeEventListener("resize", debouncedResize);
+      cleanupScene();
+    };
+  }, []);
+
+  // Update tooltip text based on viewport size
+  useEffect(() => {
+    const updateTooltipText = () => {
+      const isMobile = window.innerWidth <= 768;
+      setTooltipText(
+        isMobile
+          ? "Tap and drag to rotate, pinch to zoom"
+          : "Use mouse to rotate, zoom, and pan"
+      );
+    };
+
+    updateTooltipText(); // Set initial value
+    const debouncedUpdate = debounce(updateTooltipText, 100);
+    window.addEventListener("resize", debouncedUpdate);
+
+    return () => {
+      window.removeEventListener("resize", debouncedUpdate);
     };
   }, []);
 
   // Toggle controls and scene initialization
   const toggleControls = () => {
-    if (!sceneInitialized) {
-      initScene();
-    }
-    setIsPlaying(!isPlaying);
-    if (controlsRef.current) {
-      controlsRef.current.enabled = !isPlaying;
-    }
+    if (isPlaying) {
+      cleanupScene();
+      setIsPlaying(false);
+    } else {
+      initializeScene();
+      loadModel();
+      setIsPlaying(true);
+    };
   };
 
   // Debounce function
@@ -163,24 +228,34 @@ const ThreeScene: React.FC = () => {
     >
       {loading && (
         <div
-          style={{
-            position: "absolute",
-            top: "0",
-            left: "0",
-            width: "100%",
-            height: "100%",
-            background: "rgba(0, 0, 0, 0.8)",
-            color: "white",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 1,
-          }}
+          className="absolute inset-0 z-10 flex items-center justify-center bg-black/80 rounded-md"
         >
-          <p>Loading 3D Model...</p>
+          <div className="flex flex-col items-center justify-center space-y-4">
+            <div className="animate-pulse">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 200 200"
+                className="w-16 h-16 text-white"
+              >
+                <rect x="50" y="50" width="100" height="100"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  className="animate-[pulse_1.5s_infinite]"
+                />
+                <circle cx="60" cy="70" r="5" fill="currentColor" className="animate-ping" />
+                <circle cx="140" cy="70" r="5" fill="currentColor" className="animate-ping delay-300" />
+                <circle cx="60" cy="130" r="5" fill="currentColor" className="animate-ping delay-600" />
+                <circle cx="140" cy="130" r="5" fill="currentColor" className="animate-ping delay-900" />
+              </svg>
+            </div>
+            <div className="text-white text-sm font-bold animate-pulse bg-clip-text text-transparent bg-gradient-to-r from-gradient-1 to-gradient-2">
+              Initializing Robot Systems...
+            </div>
+          </div>
         </div>
       )}
-      
+
       {!isPlaying && (
         <button
           onClick={toggleControls}
@@ -206,7 +281,7 @@ const ThreeScene: React.FC = () => {
           className="absolute bottom-4 left-4 text-white text-sm bg-black bg-opacity-50 px-3 py-2 rounded-lg"
           role="tooltip"
         >
-          <p>Use mouse to rotate, zoom, and pan</p>
+          <p>{tooltipText}</p>
         </div>
       )}
     </div>

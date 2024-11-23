@@ -15,7 +15,7 @@ export default function Home() {
             <NavBar />
             <div className="flex flex-col min-h-screen p-4 lg:p-28 mt-8 asscroll" ref={sectionRef}>
                 <div className="flex flex-col items-center justify-center bg-gray-200 rounded-3xl overflow-hidden">
-                    <div className="relative w-full h-[80vh] lg:h-[150vh]">
+                    <div className="relative w-full h-[80vh] lg:h-[180vh]">
                         <Image src="/bot8.png" alt="robot8" fill property='true' />
                         <div className="absolute inset-0 p-4 lg:p-8 text-white">
                             <div className="absolute top-4 lg:top-15 left-4 lg:left-10 m-2 lg:m-4 bg-black bg-opacity-50 p-2 lg:p-4 rounded-lg intro-animate-text">
