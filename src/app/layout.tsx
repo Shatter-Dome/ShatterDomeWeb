@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins, Calligraffitti } from "next/font/google";
-import localFont from 'next/font/local'
+import localFont from 'next/font/local';
+import { Analytics } from "@vercel/analytics/react"; // Import Analytics component
 import "./globals.css";
 import React from "react";
 
@@ -11,8 +12,8 @@ const poppins = Poppins({
 });
 
 const calligraffitti = Calligraffitti({
-    subsets: ["latin"],
-    weight: ["400"],// Example weights, adjust as needed
+  subsets: ["latin"],
+  weight: ["400"], // Example weights, adjust as needed
 });
 
 const impact = localFont({
@@ -32,7 +33,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={poppins.className}>{children}</body>
+      <body className={poppins.className}>
+        {children}
+        <Analytics /> {/* Add Analytics here */}
+      </body>
     </html>
   );
 }
