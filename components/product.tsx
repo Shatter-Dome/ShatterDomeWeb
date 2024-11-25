@@ -112,7 +112,8 @@ const Home = () => {
                     with
                   </span>
                 </div>
-                <div className="font-bold text-5xl md:text-6xl lg:text-8xl bg-clip-text text-transparent bg-gradient-to-b from-gradient-1 to-gradient-2 text-center lg:text-left animate-text">
+                {/* <div className="font-bold text-5xl md:text-6xl lg:text-8xl bg-clip-text text-transparent bg-gradient-to-b from-gradient-1 to-gradient-2 text-center lg:text-left animate-text"> */}
+                <div className="font-bold text-5xl md:text-6xl lg:text-8xl bg-clip-text text-transparent bg-gradient-to-b from-blue-600 to-purple-600 text-center lg:text-left animate-text hover:scale-105">
                   <span className="block">RPI Lidar</span>
                 </div>
               </div>
@@ -204,8 +205,9 @@ const Home = () => {
             href="https://forms.gle/NxmcyekWypdxc5zR8"
             target="_blank"
             rel="noopener noreferrer"
+            className="pt-6 lg:pt-8 intro-animate-text animate-text"
             >
-            <button className="bg-black text-base lg:text-xl text-white py-2 lg:py-4 px-4 lg:px-8 rounded-lg mt-8 lg:mt-16 animate-text">
+            <button className="bg-black text-base lg:text-xl text-white py-2 lg:py-4 px-4 lg:px-8 rounded-lg mt-8 lg:mt-16 animate-text hover:scale-105">
                 Purchase Now
             </button>
             </a>

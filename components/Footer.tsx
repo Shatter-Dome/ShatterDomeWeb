@@ -20,7 +20,7 @@ const Footer = () => {
                             alt="LinkedIn"
                             height={28}
                             width={28}
-                            className="hover:opacity-75"
+                            className="hover:opacity-75 hover:scale-110"
                         />
                     </a>
                     <a href="https://www.instagram.com/shatterdomelabs/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
@@ -29,10 +29,10 @@ const Footer = () => {
                             alt="Instagram"
                             height={30}
                             width={30}
-                            className="hover:opacity-75"
+                            className="hover:opacity-75 hover:scale-110"
                         />
                     </a>
-                    <a href="mailto:shatterdomelabs@gmail.com" aria-label="Email" className="hover:opacity-75">
+                    <a href="mailto:shatterdomelabs@gmail.com" aria-label="Email" className="hover:opacity-75 hover:scale-110">
                         <Mail size={28} />
                     </a>
                 </div>

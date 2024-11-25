@@ -6,7 +6,7 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 // @ts-ignore
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { Play, Pause } from "lucide-react";
+import { Box, X } from "lucide-react";
 
 const ThreeScene: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -16,12 +16,12 @@ const ThreeScene: React.FC = () => {
   const requestRef = useRef<number>();
   const modelRef = useRef<THREE.Object3D | null>(null);
   const [loading, setLoading] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isExperienceActive, setIsExperienceActive] = useState(false);
   const [sceneInitialized, setSceneInitialized] = useState(false);
-  const [tooltipText, setTooltipText] = useState("Use mouse to rotate, zoom, and pan");
+  const [tooltipText, setTooltipText] = useState("Use mouse to explore 3D model");
   const controlsRef = useRef<OrbitControls | null>(null);
 
-  // Initialize basic scene elements
+  // Initialize basic scene elements (same as previous implementation)
   const initializeScene = () => {
     if (!mountRef.current || sceneInitialized) return;
 
@@ -71,7 +71,7 @@ const ThreeScene: React.FC = () => {
     setSceneInitialized(true);
   };
 
-  // Load the 3D model
+  // Load the 3D model (same as previous implementation)
   const loadModel = () => {
     if (!sceneRef.current) return;
 
@@ -101,7 +101,7 @@ const ThreeScene: React.FC = () => {
     );
   };
 
-  // Start animation loop
+  // Start animation loop (same as previous implementation)
   const startAnimation = () => {
     if (!rendererRef.current || !sceneRef.current || !cameraRef.current) return;
 
@@ -116,7 +116,7 @@ const ThreeScene: React.FC = () => {
     animate();
   };
 
-  // Clean up scene
+  // Clean up scene (same as previous implementation)
   const cleanupScene = () => {
     if (requestRef.current) {
       cancelAnimationFrame(requestRef.current);
@@ -150,7 +150,7 @@ const ThreeScene: React.FC = () => {
     setSceneInitialized(false);
   };
 
-  // Handle window resize
+  // Handle window resize (same as previous implementation)
   useEffect(() => {
     const handleResize = () => {
       if (!mountRef.current || !rendererRef.current || !cameraRef.current) return;
@@ -173,14 +173,14 @@ const ThreeScene: React.FC = () => {
     };
   }, []);
 
-  // Update tooltip text based on viewport size
+  // Update tooltip text based on viewport size (same as previous implementation)
   useEffect(() => {
     const updateTooltipText = () => {
       const isMobile = window.innerWidth <= 768;
       setTooltipText(
         isMobile
-          ? "Tap and drag to rotate, pinch to zoom"
-          : "Use mouse to rotate, zoom, and pan"
+          ? "Tap and drag to explore 3D model"
+          : "Use mouse to explore 3D model"
       );
     };
 
@@ -193,16 +193,16 @@ const ThreeScene: React.FC = () => {
     };
   }, []);
 
-  // Toggle controls and scene initialization
-  const toggleControls = () => {
-    if (isPlaying) {
+  // Toggle 3D experience and scene initialization
+  const toggleExperience = () => {
+    if (isExperienceActive) {
       cleanupScene();
-      setIsPlaying(false);
+      setIsExperienceActive(false);
     } else {
       initializeScene();
       loadModel();
-      setIsPlaying(true);
-    };
+      setIsExperienceActive(true);
+    }
   };
 
   // Debounce function
@@ -217,19 +217,10 @@ const ThreeScene: React.FC = () => {
   return (
     <div
       ref={mountRef}
-      style={{
-        width: "100%",
-        height: "500px",
-        position: "relative",
-        borderRadius: "10px",
-        overflow: "hidden",
-        background: "#000000",
-      }}
+      className="relative w-full h-[500px] bg-black rounded-lg overflow-hidden"
     >
       {loading && (
-        <div
-          className="absolute inset-0 z-10 flex items-center justify-center bg-black/80 rounded-md"
-        >
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/80 rounded-md">
           <div className="flex flex-col items-center justify-center space-y-4">
             <div className="animate-pulse">
               <svg
@@ -237,7 +228,11 @@ const ThreeScene: React.FC = () => {
                 viewBox="0 0 200 200"
                 className="w-16 h-16 text-white"
               >
-                <rect x="50" y="50" width="100" height="100"
+                <rect 
+                  x="50" 
+                  y="50" 
+                  width="100" 
+                  height="100"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="4"
@@ -249,36 +244,44 @@ const ThreeScene: React.FC = () => {
                 <circle cx="140" cy="130" r="5" fill="currentColor" className="animate-ping delay-900" />
               </svg>
             </div>
-            <div className="text-white text-sm font-bold animate-pulse bg-clip-text text-transparent bg-gradient-to-r from-gradient-1 to-gradient-2">
-              Initializing Robot Systems...
+            <div className="text-white text-sm font-bold animate-pulse bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+              Initializing 3D Experience...
             </div>
           </div>
         </div>
       )}
 
-      {!isPlaying && (
+      {!isExperienceActive && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
+          <button
+            onClick={toggleExperience}
+            className="flex flex-col items-center justify-center bg-white/20 hover:bg-white/30 p-6 rounded-xl transition-all duration-300 space-y-2"
+            aria-label="Start 3D Experience"
+          >
+            <Box className="w-16 h-16 text-white mb-2" />
+            <span className="text-white text-lg font-semibold">
+              Explore 3D Model
+            </span>
+            <span className="text-white/70 text-sm">
+              Interactive 360° Visualization
+            </span>
+          </button>
+        </div>
+      )}
+
+      {isExperienceActive && (
         <button
-          onClick={toggleControls}
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white bg-opacity-20 p-6 rounded-full hover:bg-opacity-30 transition-all duration-300"
-          aria-label="Play 3D Scene"
+          onClick={toggleExperience}
+          className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 p-2 rounded-full transition-all duration-300 z-20"
+          aria-label="Close 3D Experience"
         >
-          <Play className="w-12 h-12 text-white" />
+          <X className="w-6 h-6 text-white" />
         </button>
       )}
 
-      {isPlaying && (
-        <button
-          onClick={toggleControls}
-          className="absolute top-4 right-4 bg-black bg-opacity-50 p-2 rounded-full hover:bg-opacity-70 transition-all duration-300"
-          aria-label="Pause 3D Scene"
-        >
-          <Pause className="w-6 h-6 text-white" />
-        </button>
-      )}
-
-      {isPlaying && sceneInitialized && (
+      {isExperienceActive && sceneInitialized && (
         <div
-          className="absolute bottom-4 left-4 text-white text-sm bg-black bg-opacity-50 px-3 py-2 rounded-lg"
+          className="absolute bottom-4 left-4 text-white text-sm bg-black/50 px-3 py-2 rounded-lg"
           role="tooltip"
         >
           <p>{tooltipText}</p>

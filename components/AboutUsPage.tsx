@@ -125,7 +125,7 @@ const AboutUsPage = () => {
             <div className="mt-20 lg:mt-0 lg:flex lg:items-center lg:justify-between">
               <div>
                 <span className="text-black font-bold text-4xl lg:text-8xl animate-text">WHO</span>
-                <div className="font-bold text-4xl lg:text-8xl bg-clip-text text-transparent bg-gradient-to-b from-gradient-1 to-gradient-2 animate-text">
+                <div className="font-bold text-4xl lg:text-8xl bg-clip-text text-transparent bg-gradient-to-b from-blue-600 to-purple-600 animate-text">
                   <span className="block">WE ARE ?</span>
                 </div>
                 <div className="text-black pt-4 text-base lg:text-lg animate-text">
@@ -176,7 +176,7 @@ const AboutUsPage = () => {
                   alt="Our Team"
                   width={800}
                   height={600}
-                  className="rounded-xl"
+                  className="rounded-xl hover:scale-110 duration-300 delay-150"
                   priority
                 />
               </div>
@@ -185,7 +185,7 @@ const AboutUsPage = () => {
 
           {/* Journey Section */}
           <section ref={addToRefs} className="min-h-screen px-4 lg:px-28 flex flex-col justify-center pt-16">
-            <h1 className="text-2xl lg:text-5xl font-semibold text-left mb-4 lg:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gradient-1 to-gradient-2 animate-text">
+            <h1 className="text-2xl lg:text-5xl font-semibold text-left mb-4 lg:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 animate-text">
               OUR JOURNEY
             </h1>
             <div className="flex flex-col">
@@ -210,6 +210,78 @@ const AboutUsPage = () => {
             </div>
           </section>
 
+          {/* Quadruped Robot Section */}
+          <section ref={addToRefs} className="min-h-screen flex flex-col justify-center px-4 lg:px-28 bg-gray-100">
+            <div className="flex flex-col lg:flex-row items-center space-y-8 lg:space-y-0 lg:space-x-12">
+              <div className="flex-1 space-y-6 lg:pr-12">
+                <h2 className="text-4xl lg:text-6xl font-bold animate-text bg-clip-text text-transparent bg-gradient-to-b from-blue-600 to-purple-600">
+                  Quadruped Robot
+                </h2>
+                <div className="space-y-4 text-lg lg:text-xl text-gray-700 animate-text">
+                  <p>
+                    This Project was based on the open sourced robot dog design from Deok-yeon, we worked on this for our college project and now working on it to turn into a product.
+                  </p>
+                  <div className="flex space-x-4 pt-4">
+                    <a 
+                      href="https://www.instructables.com/Quadruped-Robot-Alpha-ESP32-Based-Spot-Micro-Robot/" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="bg-black text-white px-6 py-3 rounded-lg hover:scale-105 transition-transform animate-text"
+                    >
+                      View Project
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div className="flex-1 animate-image">
+                <Image
+                  src="/quadruped-robot.png"
+                  alt="Quadruped Robot"
+                  width={600}
+                  height={400}
+                  className="rounded-xl shadow-lg hover:scale-105 transition-transform"
+                  priority
+                />
+              </div>
+            </div>
+          </section>
+
+            <section ref={addToRefs} className="min-h-screen flex flex-col justify-center px-4 lg:px-28 bg-gray-100">
+            <div className="flex flex-col lg:flex-row items-center space-y-8 lg:space-y-0 lg:space-x-12">
+            <div className="flex-1 animate-image">
+                <Image
+                  src="/rpi.png"
+                  alt="Quadruped Robot"
+                  width={600}
+                  height={400}
+                  className="rounded-xl shadow-lg hover:scale-105 transition-transform"
+                  priority
+                />
+              </div>
+              <div className="flex-1 space-y-6 lg:pr-12">
+                <h2 className="text-4xl lg:text-6xl font-bold animate-text bg-clip-text text-transparent bg-gradient-to-b from-blue-600 to-purple-600">
+                  Edge AI ROS
+                </h2>
+                <div className="space-y-4 text-lg lg:text-xl text-gray-700 animate-text">
+                  <p>
+                    We have also worked on this project for various International competition&apos;s, developed and tested on vairous platform to bring the best to the market. We choose RPI 5 with the Latest ROS2 for developement.
+                  </p>
+                  <div className="flex space-x-4 pt-4">
+                    <a 
+                      href="https://circuitdigest.com/microcontroller-projects/edge-ai-on-quadruped-robot-dog-using-maixduino-kit" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="bg-black text-white px-6 py-3 rounded-lg hover:scale-105 transition-transform animate-text"
+                    >
+                      View Project
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
           {/* CTA Section */}
           <section ref={addToRefs} className="min-h-screen flex flex-col justify-center px-4 lg:px-0">
             <h1 className="text-3xl lg:text-6xl font-bold text-center mb-6 lg:mb-12 animate-text">Join Our Journey</h1>
@@ -219,12 +291,12 @@ const AboutUsPage = () => {
                 innovation and education
               </p>
               <a
-                href="https://chat.whatsapp.com/Jt5ZnoCQoaOFl3XuyCqhNN"
+                href="https://chat.whatsapp.com/GSlGw30PvHE6HTda2g8771"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-6 lg:mt-8 animate-text"
               >
-                <button className="bg-gradient-to-r from-gradient-1 to-gradient-2 text-white py-2 lg:py-4 px-4 lg:px-8 rounded text-base lg:text-xl">
+                <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 lg:py-4 px-4 lg:px-8 rounded text-base lg:text-xl">
                   Join Our Team
                 </button>
               </a>

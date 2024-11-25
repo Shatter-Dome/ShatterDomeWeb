@@ -19,6 +19,7 @@ const ClientOnlyComponent1 = dynamic(() => import('../../components/ThreeScene')
 
 export default function Home() {
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
+  const imagesRefs = useRef<(HTMLImageElement | null)[]>([]);
 
   useEffect(() => {
     // Animate sections on scroll
@@ -45,17 +46,20 @@ export default function Home() {
           }
         );
 
-        // Animate image elements
+        // Animate image elements with enhanced effects
         gsap.fromTo(
           section.querySelectorAll('.animate-image'),
           { 
             opacity: 0, 
-            scale: 0.9 
+            scale: 0.8,
+            rotation: -10
           },
           { 
             opacity: 1, 
             scale: 1,
-            duration: 1,
+            rotation: 0,
+            duration: 1.2,
+            ease: "power2.out",
             scrollTrigger: {
               trigger: section,
               start: 'top 80%',
@@ -66,6 +70,31 @@ export default function Home() {
         );
       }
     });
+
+    // Add hover animations to images
+    imagesRefs.current.forEach((img) => {
+      if (img) {
+        gsap.set(img, { transformOrigin: 'center center' });
+        
+        img.addEventListener('mouseenter', () => {
+          gsap.to(img, { 
+            scale: 1.05, 
+            rotation: 2, 
+            duration: 0.3, 
+            ease: "power1.inOut" 
+          });
+        });
+
+        img.addEventListener('mouseleave', () => {
+          gsap.to(img, { 
+            scale: 1, 
+            rotation: 0, 
+            duration: 0.3, 
+            ease: "power1.inOut" 
+          });
+        });
+      }
+    });
   }, []);
 
   const addToRefs = (el: HTMLElement | null) => {
@@ -74,6 +103,12 @@ export default function Home() {
     }
   };
 
+  const addToImageRefs = (el: HTMLImageElement | null) => {
+    if (el && !imagesRefs.current.includes(el)) {
+      imagesRefs.current.push(el);
+    }
+  };
+  
   return (
     <div>
       <NavBar />
@@ -84,13 +119,13 @@ export default function Home() {
             <div className="flex flex-col lg:flex-row lg:items-center gap-8">
               <div className="mt-20 lg:mt-0">
                 <span className="text-black font-bold text-4xl lg:text-8xl intro-animate-text animate-text">ALPHA</span>
-                <div className="font-bold text-4xl lg:text-8xl bg-clip-text text-transparent bg-gradient-to-b from-gradient-1 to-gradient-2 intro-animate-text animate-text">
+                <div className="font-bold text-4xl lg:text-8xl bg-clip-text text-transparent bg-gradient-to-b from-blue-600 to-purple-600 intro-animate-text animate-text">
                   <span className="block">QUADRUPED</span>
                   <span className="block">ROBOT</span>
                 </div>
                 <div className="text-black pt-4 text-base lg:text-lg intro-animate-text animate-text">
                   <span className="block">Comprehensive STEM Kit for Mastering ROS</span>
-                  <span className="block">and Reinforcement Learning</span>
+                  <span className="block">and Reinforcement Learning.</span>
                 </div>
                 <div className="pt-6 lg:pt-8 intro-animate-text animate-text">
   <a
@@ -98,7 +133,7 @@ export default function Home() {
     target="_blank"
     rel="noopener noreferrer"
   >
-    <button className="bg-black text-white py-2 px-4 lg:py-4 lg:px-8 text-sm lg:text-base">
+    <button className="bg-black text-white py-2 px-4 lg:py-4 lg:px-8 text-sm lg:text-base hover:scale-105">
       Preorder Now
     </button>
   </a>
@@ -106,7 +141,7 @@ export default function Home() {
 
               </div>
               <div className="mt-8 lg:mt-0 intro-animate-image animate-image">
-                <Image src="/bot1.png" alt="robot1" width={800} height={800} className="w-full h-auto" priority />
+                <Image src="/bot1.png" alt="robot1" width={800} height={800} className="hover:scale-105 duration-300 delay-150 w-full h-auto" priority />
               </div>
             </div>
           </section>
@@ -125,9 +160,9 @@ export default function Home() {
             <div className="flex flex-col lg:flex-row lg:items-center pt-8 lg:pt-16">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-12 mb-8 lg:mb-0">
                 <div className="flex flex-col items-start animate-text">
-                  <span className="text-white font-bold text-2xl mb-1">10K+ </span>
+                <span className="text-white font-bold text-2xl mb-1">10K+ </span>
                   <span className="text-white text-base lg:text-lg mb-1">students and researchers</span>
-                  <span className="text-white font-bold text-lg">Empowered</span>
+                  <span className="text-white font-bold text-lg">Empowered.</span>
                 </div>
 
                 <div className="flex flex-col items-start animate-text">
@@ -144,14 +179,14 @@ export default function Home() {
               </div>
 
               <div className="lg:w-2/5 mt-6 lg:mt-0 animate-image">
-                <Image src="/bot2.png" alt="robot2" width={1000} height={1000} className="w-full h-auto" priority />
+                <Image src="/bot2.png" alt="robot2" width={1000} height={1000} className="w-full h-auto hover:scale-110 duration-300 delay-150" priority />
               </div>
             </div>
           </section>
 
           {/* Capabilities Section */}
           <section ref={addToRefs} className="min-h-screen px-4 lg:px-28 flex flex-col justify-start pt-16 lg:pt-24 animate-section">
-            <h1 className="text-2xl lg:text-5xl font-semibold text-left mb-4 lg:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gradient-1 to-gradient-2 animate-text">
+            <h1 className="text-2xl lg:text-5xl font-semibold text-left mb-4 lg:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 animate-text">
               ROBOTICS CAPABILITIES
             </h1>
             <div className="flex flex-col">
@@ -193,7 +228,7 @@ export default function Home() {
                   alt="robot5" 
                   height={1000} 
                   width={1000} 
-                  className="w-full h-full object-contain" 
+                  className="w-full h-full object-contain hover:scale-110 duration-300 delay-150" 
                   priority 
                 />
               </div>
@@ -208,7 +243,7 @@ export default function Home() {
 
           {/* Vision Section */}
           <section ref={addToRefs} className="min-h-screen flex flex-col px-4 lg:px-32 pt-6 animate-section">
-            <h1 className="text-3xl lg:text-6xl font-bold text-left mb-4 lg:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gradient-1 to-gradient-2 animate-text">
+            <h1 className="text-3xl lg:text-6xl font-bold text-left mb-4 lg:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 animate-text">
               Vision with Depth
             </h1>
             <div className="flex flex-col justify-center">
@@ -234,14 +269,15 @@ export default function Home() {
 
               <div className="pt-6 lg:pt-8 intro-animate-text animate-text">
   <a
-    href="https://forms.gle/NxmcyekWypdxc5zR8"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-              <button className="mt-6 lg:mt-8 bg-gradient-to-r from-gradient-1 to-gradient-2 text-white py-2 lg:py-4 px-4 lg:px-8 rounded text-base lg:text-xl animate-text">
-                Join Waiting List!
-              </button>
-  </a>
+        href="https://forms.gle/NxmcyekWypdxc5zR8"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block mt-6 lg:mt-8 animate-text"
+      >
+        <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 lg:py-4 lg:px-8 rounded-lg shadow-lg text-base lg:text-xl hover:shadow-xl transition-transform transform hover:scale-105">
+        Join Waiting List!
+        </button>
+      </a>
 </div>
             </div>
           </section>

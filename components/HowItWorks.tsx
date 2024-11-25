@@ -113,7 +113,7 @@ const HowItWorks = () => {
         <div className="lg:hidden mt-6">
           <Image
             ref={botImageRef}
-            className="w-full h-auto object-contain transition-transform duration-300 hover:scale-105"
+            className="w-full h-auto object-contain transition-transform hover:scale-110 duration-300 delay-150"
             src="/bot11.png"
             alt="robot11"
             width={800}
@@ -132,7 +132,7 @@ const HowItWorks = () => {
       <div className="mt-12 lg:mt-0 lg:w-1/2 lg:block hidden">
         <Image
           ref={botImageRef}
-          className="w-full h-auto object-contain transition-transform duration-300 hover:scale-105"
+          className="w-full h-auto object-contain transition-transform hover:scale-110 duration-300 delay-150"
           src="/bot11.png"
           alt="robot11"
           width={800}
@@ -155,7 +155,7 @@ const HowItWorks = () => {
               </div>
               <div className="mt-12 lg:mt-0 lg:w-1/2">
                 <Image
-                  className="w-full h-auto object-contain transition-transform duration-300 hover:scale-105 animate-image"
+                  className="w-full h-auto object-contain transition-transform hover:scale-110 duration-300 delay-150 animate-image"
                   src="/bot12.png"
                   alt="forward-kinematics"
                   width={700}
@@ -177,7 +177,7 @@ const HowItWorks = () => {
               </div>
               <div className="mt-12 lg:mt-0 lg:w-1/2">
                 <Image
-                  className="w-full h-auto object-contain transition-transform duration-300 hover:scale-105 animate-image"
+                  className="w-full h-auto object-contain transition-transform hover:scale-110 duration-300 delay-150 animate-image"
                   src="/bot13.png"
                   alt="inverse-kinematics"
                   width={700}
@@ -259,7 +259,7 @@ const HowItWorks = () => {
              <div className="lg:w-1/2 order-2 lg:order-1">
                <Image
                  ref={botImageRef}
-                 className="w-full h-auto object-contain transition-transform duration-300 hover:scale-105"
+                 className="w-full h-auto object-contain transition-transform hover:scale-110 duration-300 delay-150"
                  src="/bot15.png"
                  alt="robot15"
                  width={800}
@@ -349,7 +349,7 @@ const HowItWorks = () => {
       <div className="lg:hidden mt-6">
         <Image
           ref={botImageRef}
-          className="w-full h-auto object-contain transition-transform duration-300 hover:scale-105"
+          className="w-full h-auto object-contain transition-transform duration-300 hover:scale-110 duration-300 delay-150"
           src="/bot10.png"
           alt="robot10"
           width={800}
@@ -363,7 +363,7 @@ const HowItWorks = () => {
         <span className="block">Join our community to explore new ideas, collaborate with like-minded enthusiasts, and shape the future of robotics together.</span>
       </div>
       <a
-        href="https://chat.whatsapp.com/Jt5ZnoCQoaOFl3XuyCqhNN"
+        href="https://discord.gg/V535ZTzH"
         target="_blank"
         rel="noopener noreferrer"
         className="block mt-6 lg:mt-8 animate-text"
@@ -378,7 +378,7 @@ const HowItWorks = () => {
     <div className="mt-12 lg:mt-0 lg:w-1/2 lg:block hidden">
       <Image
         ref={botImageRef}
-        className="w-full h-auto object-contain transition-transform duration-300 hover:scale-105"
+        className="w-full h-auto object-contain transition-transform hover:scale-110 duration-300 delay-150"
         src="/bot10.png"
         alt="robot10"
         width={800}

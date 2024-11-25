@@ -14,28 +14,6 @@ export default function Home() {
         <div>
             <NavBar />
             <div className="flex flex-col min-h-screen p-4 lg:p-28 mt-8 asscroll" ref={sectionRef}>
-                <div className="flex flex-col items-center justify-center bg-gray-200 rounded-3xl overflow-hidden">
-                    <div className="relative w-full h-[80vh] lg:h-[180vh]">
-                        <Image src="/bot8.png" alt="robot8" fill property='true' />
-                        <div className="absolute inset-0 p-4 lg:p-8 text-white">
-                            <div className="absolute top-4 lg:top-15 left-4 lg:left-10 m-2 lg:m-4 bg-black bg-opacity-50 p-2 lg:p-4 rounded-lg intro-animate-text">
-                                <h1 className="text-xs lg:text-base">Advanced object recognition</h1>
-                                <h1 className="text-xs lg:text-base">for a deeper understanding</h1>
-                                <h1 className="text-xs lg:text-base">of the environment</h1>
-                            </div>
-                            <div className="absolute top-20 lg:top-30 right-4 lg:right-10 m-2 lg:m-4 bg-black bg-opacity-50 p-2 lg:p-4 rounded-lg intro-animate-text">
-                                <h1 className="text-xs lg:text-base">Real-time scene analysis</h1>
-                                <h1 className="text-xs lg:text-base">for dynamic Control</h1>
-                                <h1 className="text-xs lg:text-base">Systems</h1>
-                            </div>
-                            <div className="absolute top-40 lg:top-60 left-4 lg:left-10 m-2 lg:m-4 bg-black bg-opacity-50 p-2 lg:p-4 rounded-lg intro-animate-text">
-                                <h1 className="text-xs lg:text-base">Simultaneous localization</h1>
-                                <h1 className="text-xs lg:text-base">and mapping (SLAM)</h1>
-                                <h1 className="text-xs lg:text-base">for precise spatial tracking</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div className="flex flex-col lg:flex-row lg:items-center mt-8 lg:mt-16 space-y-8 lg:space-y-0 lg:space-x-8 animate-section">
                     <div className="flex flex-1 justify-center items-center p-4 lg:p-8 animate-image">
                         <Image src="/bot9.png" alt="robot9" width="500" height="500" />
